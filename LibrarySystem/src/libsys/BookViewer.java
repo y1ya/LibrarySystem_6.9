@@ -196,15 +196,17 @@ public class BookViewer extends main {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnBorrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrowActionPerformed
-        databaseConnect("books");
+        
         try 
         {
+            databaseConnect("books");
             rs = stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = " + currBookID);
             while (rs.next()) 
             {
                 availability = rs.getString("AVAILABILITY");
                 borrower = rs.getInt("BORROWER");
             }
+            refreshRsStmt("books");
         }
         catch (SQLException err) 
         {
@@ -325,9 +327,10 @@ public class BookViewer extends main {
     
     public void updateView()
     {
-        databaseConnect("books");
+        
         try 
         {
+            databaseConnect("books");
             rs = stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = " + currBookID);
             while (rs.next()) 
             {
@@ -363,9 +366,15 @@ public class BookViewer extends main {
     }
     public boolean sameID() throws SQLException
     {
-        int bookid = rs.getInt("BOOKID");
+        rs = stmt.executeQuery("SELECT * FROM BOOKS WHERE BORROWER = " + currUserID);
+        while (rs.next()) {
+            int bookid = rs.getInt("BOOKID");
+            if (bookid == currBookID) {
+                return true;
+            }
+        }
         refreshRsStmt("books");
-        return bookid == currBookID;
+        return false;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

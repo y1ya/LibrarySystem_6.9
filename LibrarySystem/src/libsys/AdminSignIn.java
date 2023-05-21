@@ -158,13 +158,11 @@ public class AdminSignIn extends main {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
-        databaseConnect("accounts");
- 
         usiFullName = txtLogName.getText();
         usiPass = String.valueOf(txtLogPass.getPassword());
-        
         try {
-            signIn(usiFullName, usiPass, "ADMIN", txtLogName, txtLogPass);
+            databaseConnect("accounts");
+            signIn("ADMIN", txtLogName, txtLogPass);
         } catch (Exception ex) {
             Logger.getLogger(AdminSignIn.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Incorrect Username or Password");

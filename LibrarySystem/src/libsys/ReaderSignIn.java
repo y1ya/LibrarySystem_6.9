@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import libsys.MainWindow;
-import libsys.ReaderSignUp;
+import libsys.GuestSignUp;
 import libsys.main;
 
 public class ReaderSignIn extends main {
@@ -26,7 +26,7 @@ public class ReaderSignIn extends main {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtLogName = new textfield.TextField();
+        txtLogEmail = new textfield.TextField();
         txtLogPass = new textfield.PasswordField();
         btnCreate = new Button_Gradient.ButtonGradient();
         btnCreateAcc = new Button_Gradient.ButtonGradient();
@@ -62,7 +62,7 @@ public class ReaderSignIn extends main {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 153, 153));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Welcome Back");
+        jLabel4.setText("Welcome Back Guest/Member");
         jLabel4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -76,20 +76,15 @@ public class ReaderSignIn extends main {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setText("Don't have account?");
 
-        txtLogName.setLabelText("User Name");
-        txtLogName.addActionListener(new java.awt.event.ActionListener() {
+        txtLogEmail.setLabelText("Enter your Email");
+        txtLogEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLogNameActionPerformed(evt);
+                txtLogEmailActionPerformed(evt);
             }
         });
 
-        txtLogPass.setLabelText("Confirm Password");
+        txtLogPass.setLabelText("Enter Password");
         txtLogPass.setShowAndHide(true);
-        txtLogPass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLogPassActionPerformed(evt);
-            }
-        });
 
         btnCreate.setBackground(new java.awt.Color(0, 0, 0));
         btnCreate.setText("LOGIN");
@@ -128,7 +123,7 @@ public class ReaderSignIn extends main {
                 .addGap(89, 89, 89)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtLogPass, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtLogName, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLogEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -142,7 +137,7 @@ public class ReaderSignIn extends main {
                 .addGap(6, 6, 6)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtLogName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtLogEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtLogPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
@@ -163,13 +158,10 @@ public class ReaderSignIn extends main {
     }// </editor-fold>//GEN-END:initComponents
      
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        databaseConnect("accounts");
-        
-        usiFullName = txtLogName.getText();
-        usiPass = String.valueOf(txtLogPass.getPassword());
-        
+   
         try {
-            signIn(usiFullName, usiPass, "READER", txtLogName, txtLogPass);
+            databaseConnect("accounts");
+            signIn("GUEST", "MEMBER", txtLogEmail, txtLogPass);
         } catch (Exception ex) {
             Logger.getLogger(ReaderSignIn.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -177,7 +169,7 @@ public class ReaderSignIn extends main {
 
     private void btnCreateAccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAccActionPerformed
         this.dispose();
-        main.sendDisplaySignal(new ReaderSignUp()); // <--- It goes to
+        main.sendDisplaySignal(new GuestSignUp()); // <--- It goes to
     }//GEN-LAST:event_btnCreateAccActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -185,13 +177,9 @@ public class ReaderSignIn extends main {
         main.sendDisplaySignal(new MainWindow()); // <--- It goes back to
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void txtLogNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLogNameActionPerformed
+    private void txtLogEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLogEmailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtLogNameActionPerformed
-
-    private void txtLogPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLogPassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLogPassActionPerformed
+    }//GEN-LAST:event_txtLogEmailActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Button_Gradient.ButtonGradient btnBack;
@@ -204,7 +192,7 @@ public class ReaderSignIn extends main {
     private javax.swing.JLabel jLabel8;
     private keeptoo.KGradientPanel kGradientPanel1;
     private Panel_Gradient.PanelRound panelRound1;
-    private textfield.TextField txtLogName;
+    private textfield.TextField txtLogEmail;
     private textfield.PasswordField txtLogPass;
     // End of variables declaration//GEN-END:variables
 }

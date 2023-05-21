@@ -215,8 +215,8 @@ public class BookEditor extends main {
     }//GEN-LAST:event_ImageLabelMouseExited
 
     private void Btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_saveActionPerformed
-        databaseConnect("books");
         try{
+            databaseConnect("books");
             rs=stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = "+currBookID);
             rs.next();
             rs.updateString("TITLE", Title_tf.getText());
@@ -256,9 +256,9 @@ public class BookEditor extends main {
     }//GEN-LAST:event_Btn_DeleteActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       databaseConnect("books");
-       new DropTarget(ImageLabel, imageInsert);
+        new DropTarget(ImageLabel, imageInsert);
         try{
+            databaseConnect("books");
             rs=stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = "+currBookID);
             while(rs.next()){
                 Title_tf.setText(rs.getString("TITLE"));
@@ -281,6 +281,7 @@ public class BookEditor extends main {
                 ImageIcon icon=new ImageIcon(dimg);
                 ImageLabel.setText(null);
                 ImageLabel.setIcon(icon);
+                refreshRsStmt("books");
             }
         }
         catch(SQLException err){
@@ -289,8 +290,8 @@ public class BookEditor extends main {
     }//GEN-LAST:event_formWindowOpened
   
     private void DeleteAction(){
-        databaseConnect("books");
         try {
+            databaseConnect("books");
             rs = stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = " + currBookID);
             rs.next();
             rs.deleteRow();

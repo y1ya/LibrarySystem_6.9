@@ -229,8 +229,9 @@ public class BookBorrowMan extends main {
         borrowTableModel = new DefaultTableModel(columnNames1, 0);
         borrowTable.setModel(borrowTableModel);
 
-        databaseConnect("books");
+        
         try {
+            databaseConnect("books");
             rs = stmt.executeQuery("SELECT BORROWER, TITLE, BOOKID, AVAILABILITY FROM BOOKS WHERE AVAILABILITY = 'BORROWING' OR AVAILABILITY = 'RETURNING'");
             while (rs.next()) {
                 borrowTableModel.addRow(new Object[]{
@@ -249,8 +250,8 @@ public class BookBorrowMan extends main {
         borrowedTableModel = new DefaultTableModel(columnNames2, 0);
         borrowedTable.setModel(borrowedTableModel);
 
-        databaseConnect("books");
         try {
+            databaseConnect("books");
             rs = stmt.executeQuery("SELECT BORROWER, TITLE, BOOKID, DUEDATE FROM BOOKS WHERE AVAILABILITY = 'BORROWED'");
             while (rs.next()) {
                 borrowedTableModel.addRow(new Object[]{
@@ -291,6 +292,7 @@ public class BookBorrowMan extends main {
                     rs.getString("AVAILABILITY")
                 });
             }
+            refreshRsStmt("books");
         } catch (SQLException err) {
             System.out.println(err.getMessage());
         }
@@ -316,6 +318,7 @@ public class BookBorrowMan extends main {
                     rs.getString("AVAILABILITY")
                 });
             }
+            refreshRsStmt("books");
         } catch (SQLException err) {
             System.out.println(err.getMessage());
         }
@@ -352,10 +355,6 @@ public class BookBorrowMan extends main {
                     updateRs.updateRow();
                 }
 
-                refreshRsStmt("books");
-                updateBorrowedTable();
-                borrowTableModel.setRowCount(0);
-
                 // Store data from ResultSet in a separate data structure
                 List<Object[]> resultSetData = new ArrayList<>();
                 while (updateRs.next()) {
@@ -371,6 +370,7 @@ public class BookBorrowMan extends main {
                 }
 
                 // Use the stored data for subsequent iteration
+                borrowTableModel.setRowCount(0);
                 for (Object[] rowData : resultSetData) {
                     borrowTableModel.addRow(rowData);
                 }
@@ -380,6 +380,9 @@ public class BookBorrowMan extends main {
                 // Close ResultSet and Statement
                 updateRs.close();
                 updateStmt.close();
+
+                refreshRsStmt("books");
+                updateBorrowedTable();
             } catch (SQLException err) {
                 JOptionPane.showMessageDialog(null, "Error: " + err.getMessage());
             }
@@ -456,6 +459,7 @@ public class BookBorrowMan extends main {
                 });
             }
         }
+        refreshRsStmt("books");
     }
 
     public void updateBorrowTable() throws SQLException {
@@ -473,7 +477,9 @@ public class BookBorrowMan extends main {
                 });
             }
         }
-}
+        refreshRsStmt("books");
+    }
+    
     public long dateDiff(Date duedate, Date currentdate){
         long millDiff = duedate.getTime() - currentdate.getTime();
         long daysDiff = millDiff/(1000 * 60 * 60 * 24);

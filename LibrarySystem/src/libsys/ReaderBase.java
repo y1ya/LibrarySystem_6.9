@@ -40,6 +40,7 @@ public class ReaderBase extends main {
         lblGreetName = new javax.swing.JLabel();
         cbGenre = new javax.swing.JComboBox<>();
         cbAvail = new javax.swing.JComboBox<>();
+        btnMember = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         mainTable = new javax.swing.JTable();
         cbCending = new javax.swing.JComboBox<>();
@@ -77,6 +78,14 @@ public class ReaderBase extends main {
 
         cbAvail.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Unavailable / Available", "" }));
         jPanel1.add(cbAvail, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 20, -1, 31));
+
+        btnMember.setText("Become a member");
+        btnMember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMemberActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnMember, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 150, -1, -1));
 
         mainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -164,13 +173,10 @@ public class ReaderBase extends main {
         if (selectedRow != -1) {
             Object val = mainTable.getValueAt(selectedRow, 4);
             currBookID = Integer.parseInt(val.toString());
-            // refreshRsStmt("books");
-            // System.out.println(currBookID);
         }
     }//GEN-LAST:event_mainTableMouseClicked
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        databaseConnect("books");
         bookFinder();
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -205,6 +211,10 @@ public class ReaderBase extends main {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         initialSearch();
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMemberActionPerformed
+        sendDisplaySignal(new MemberSignUp());
+    }//GEN-LAST:event_btnMemberActionPerformed
 
     public void allAddBook(String[] bookData) throws Exception 
     {
@@ -256,9 +266,11 @@ public class ReaderBase extends main {
 
     public void bookFinder() {
         try {
+            databaseConnect("books");
             allSetModel();
             allClear();
             sortBy(decideCat(), decideAvail());
+            refreshRsStmt("books");
         } 
         catch (Exception ex) 
         {
@@ -285,14 +297,15 @@ public class ReaderBase extends main {
     
     public void initialSearch() 
     {
-        databaseConnect("books");
         rbTitle.setSelected(true);
         cbAvail.setSelectedIndex(0);
         cbGenre.setSelectedIndex(0);
         try {
+            databaseConnect("books");
             allSetModel();
             allClear();
             sortBy(decideCat(), decideAvail());
+            refreshRsStmt("books");
         } 
         catch (Exception ex) 
         {
@@ -433,7 +446,6 @@ public class ReaderBase extends main {
                     allAddBook(bookData);
                 }
             }
-
             refreshRsStmt("books");
         } 
         catch (SQLException err) 
@@ -485,6 +497,7 @@ public class ReaderBase extends main {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgCategories;
     public Button_Gradient.ButtonGradient btnLogOut;
+    private javax.swing.JButton btnMember;
     private Button_Gradient.ButtonGradient btnSearch;
     private Button_Gradient.ButtonGradient btnViewBook;
     private javax.swing.JComboBox<String> cbAvail;

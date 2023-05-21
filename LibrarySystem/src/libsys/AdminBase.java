@@ -222,14 +222,17 @@ public class AdminBase extends main {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        databaseConnect("accounts");
-        int ids = randNumGen("accounts", "userid");
-        txtUserId.setText(String.valueOf(ids));
+        int ids;
+        
         String[] columnNames = {"User ID", "Fullname", "Password", "User Type"};
         tblDataAccounts.setColumnIdentifiers(columnNames);
         tblDataAccounts.setRowCount(0);
         
         try {
+            databaseConnect("accounts");
+            ids = randNumGen("accounts", "userid");
+            txtUserId.setText(String.valueOf(ids));
+            databaseConnect("accounts");
             while(rs.next()) {
                 tblDataAccounts.addRow(new Object[] 
                 {
@@ -486,14 +489,15 @@ public class AdminBase extends main {
                 String availability = rs.getString("AVAILABILITY");
                 if (availability.equals("BORROWED") || availability.equals("RETURNING")) {
                     //databaseConnect("accounts");
+                    refreshRsStmt("books");
                     return true;
                 }
             }
-            return false;
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(AdminBase.this, err.getMessage());
-            return false;
         }
+        refreshRsStmt("books");
+        return false;
     }
     
     private void updateBorrowedBooks(int userId) {
@@ -506,6 +510,7 @@ public class AdminBase extends main {
                 rs.updateNull("DUEDATE");
                 rs.updateRow();
             }
+            refreshRsStmt("books");
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(AdminBase.this, err.getMessage());
         }

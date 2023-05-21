@@ -157,13 +157,11 @@ public class LibrarianSignIn extends main {
     }// </editor-fold>//GEN-END:initComponents
      
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
-        databaseConnect("accounts");
-        
         usiFullName = txtLogName.getText();
-        usiPass = String.valueOf(txtLogPass.getPassword());
-     
+        usiPass = String.valueOf(txtLogPass.getPassword());   
         try {
-            signIn(usiFullName, usiPass, "LIBRARIAN", txtLogName, txtLogPass);
+            databaseConnect("accounts");
+            signIn("LIBRARIAN", txtLogName, txtLogPass);
         } catch (Exception ex) {
             Logger.getLogger(LibrarianSignIn.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Incorrect Username or Password");

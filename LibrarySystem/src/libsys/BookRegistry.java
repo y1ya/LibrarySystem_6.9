@@ -208,7 +208,6 @@ public class BookRegistry extends main {
     }//GEN-LAST:event_btn_BackActionPerformed
 
     private void Btn_RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegisterActionPerformed
-        databaseConnect("books");
         String[] InvalidChars={"\\?","\\:","\\<","\\>","\\/","\\*","\"","\\|"};
         String destinationpath="";
         String validfilename=Title_tf.getText();
@@ -220,6 +219,7 @@ public class BookRegistry extends main {
         destinationpath="src/libsys_images/"+validfilename+".jpeg";
         
         try{
+            databaseConnect("books");
             int newBookID=randNumGen("books","bookid");
             //The columns that are easiest to enter
             rs.moveToInsertRow();
@@ -232,7 +232,6 @@ public class BookRegistry extends main {
             rs.updateInt("BOOKID", newBookID);
             rs.insertRow();
             refreshRsStmt("books");
-                    databaseConnect("books");
 
             //The CopyImage method needs to throw an exception to work properly
             try {

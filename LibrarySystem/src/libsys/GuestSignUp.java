@@ -7,13 +7,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import static libsys.main.currFullName;
 
-public class ReaderSignUp extends main {
-    public ReaderSignUp() {
+public class GuestSignUp extends main {
+    public GuestSignUp() {
         initComponents();
-      
-        lblPassNotAligned.setVisible(false);
-        lblLengthIsLess1.setVisible(false);
-        lblLengthIsLess2.setVisible(false);
     }
     
     @SuppressWarnings("unchecked")
@@ -26,8 +22,6 @@ public class ReaderSignUp extends main {
         panelRound1 = new Panel_Gradient.PanelRound();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        lblPassNotAligned = new javax.swing.JLabel();
-        lblLengthIsLess1 = new javax.swing.JLabel();
         txtNewName = new textfield.TextField();
         jLabel7 = new javax.swing.JLabel();
         txtNewPassConf = new textfield.PasswordField();
@@ -36,7 +30,7 @@ public class ReaderSignUp extends main {
         btnConfirm1 = new Button_Gradient.ButtonGradient();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        lblLengthIsLess2 = new javax.swing.JLabel();
+        txtNewEmail = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -78,15 +72,7 @@ public class ReaderSignUp extends main {
         jLabel6.setText("Register a new account");
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        lblPassNotAligned.setFont(new java.awt.Font("Tahoma", 2, 10)); // NOI18N
-        lblPassNotAligned.setForeground(new java.awt.Color(255, 51, 51));
-        lblPassNotAligned.setText("Password not Alligned");
-
-        lblLengthIsLess1.setFont(new java.awt.Font("Tahoma", 2, 10)); // NOI18N
-        lblLengthIsLess1.setForeground(new java.awt.Color(255, 51, 51));
-        lblLengthIsLess1.setText("Name is less than 10 characters.");
-
-        txtNewName.setLabelText("User Name");
+        txtNewName.setLabelText("Enter your full name\n");
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -95,7 +81,7 @@ public class ReaderSignUp extends main {
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/User Default_30px.png"))); // NOI18N
 
-        txtNewPass.setLabelText("Password");
+        txtNewPass.setLabelText("Create Password\n");
         txtNewPass.setShowAndHide(true);
 
         btnConfirm1.setBackground(new java.awt.Color(0, 0, 0));
@@ -112,39 +98,10 @@ public class ReaderSignUp extends main {
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/password_37px.png"))); // NOI18N
 
-        lblLengthIsLess2.setFont(new java.awt.Font("Tahoma", 2, 10)); // NOI18N
-        lblLengthIsLess2.setForeground(new java.awt.Color(255, 51, 51));
-        lblLengthIsLess2.setText("Password is less than 8 characters.");
-
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
         panelRound1Layout.setHorizontalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound1Layout.createSequentialGroup()
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
-                        .addGap(781, 781, 781)
-                        .addComponent(jLabel7))
-                    .addGroup(panelRound1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelRound1Layout.createSequentialGroup()
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblPassNotAligned)
-                                    .addComponent(txtNewPassConf, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelRound1Layout.createSequentialGroup()
-                                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9))
-                                .addGap(30, 30, 30)
-                                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblLengthIsLess1)
-                                    .addComponent(txtNewName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNewPass, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblLengthIsLess2))))))
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRound1Layout.createSequentialGroup()
@@ -152,11 +109,33 @@ public class ReaderSignUp extends main {
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelRound1Layout.createSequentialGroup()
                         .addGap(45, 45, 45)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRound1Layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(btnConfirm1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(panelRound1Layout.createSequentialGroup()
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addGap(781, 781, 781)
+                        .addComponent(jLabel7))
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelRound1Layout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(txtNewPassConf, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelRound1Layout.createSequentialGroup()
+                                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9))
+                                .addGap(30, 30, 30)
+                                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNewName, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                    .addComponent(txtNewPass, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                    .addComponent(txtNewEmail)))
+                            .addGroup(panelRound1Layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(btnConfirm1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,27 +149,23 @@ public class ReaderSignUp extends main {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(lblLengthIsLess1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(txtNewEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtNewName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addGap(18, 18, 18)
-                .addComponent(lblLengthIsLess2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(37, 37, 37)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtNewPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(lblPassNotAligned)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(37, 37, 37)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtNewPassConf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(55, 55, 55)
                 .addComponent(btnConfirm1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100))
+                .addGap(64, 64, 64))
         );
 
         kGradientPanel2.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 84, 410, 620));
@@ -208,57 +183,65 @@ public class ReaderSignUp extends main {
     }//GEN-LAST:event_btnBack1ActionPerformed
 
     private void btnConfirm1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirm1ActionPerformed
-        databaseConnect("accounts");
-        
+  
         usiFullName = txtNewName.getText();
         usiPass = String.valueOf(txtNewPass.getPassword());
-        randID = randNumGen("accounts", "userid");
+        usiEmail = txtNewEmail.getText();
         
-        try 
-        {  
-            if(lessthanLength(10, txtNewName) || lessthanLength(8, txtNewPass)) {
-                if(lessthanLength(10, txtNewName)){
-                    lblLengthIsLess1.setVisible(true);
-                    lblLengthIsLess2.setVisible(false);
-                }
-                if(lessthanLength(8,txtNewPass)){
-                    lblLengthIsLess1.setVisible(false);                    
-                    lblLengthIsLess2.setVisible(true);
-                }
-                if(lessthanLength(10, txtNewName) && lessthanLength(8,txtNewPass)){
-                    lblLengthIsLess1.setVisible(true);                    
-                    lblLengthIsLess2.setVisible(true);
-                }                
-            }
-            else{
-                if (!String.valueOf(txtNewPass.getPassword()).equals(String.valueOf(txtNewPassConf.getPassword())))
-                    lblPassNotAligned.setVisible(true);
-
-                else
+        if ((usiFullName.isEmpty()) || usiPass.isEmpty() || usiEmail.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Must satisfy all fields");
+        }
+        else if (lessthanLength(6, txtNewPass)) {
+            JOptionPane.showMessageDialog(null, "Password must be greater than or equal to 6 characters");
+        }
+        else if (lessthanLength(10, txtNewName)) {
+            JOptionPane.showMessageDialog(null, "Name must be greater than or equal to 10 characters");
+        }                
+        else 
+        {
+            if (!String.valueOf(txtNewPass.getPassword()).equals(String.valueOf(txtNewPassConf.getPassword()))) 
+            {
+                JOptionPane.showMessageDialog(null, "Password not aligned. Try again.");
+            } 
+            else 
+            {
+                try
                 {
+                    databaseConnect("accounts");
+                    int randID = randNumGen("accounts", "userid");
+                    databaseConnect("accounts");
                     rs.moveToInsertRow();
-                    rs.updateString("PASSWORD", usiPass);
-                    rs.updateString("FULLNAME", usiFullName);
                     rs.updateInt("USERID", randID); 
-                    rs.updateString("USERTYPE", "READER");
+                    rs.updateString("FULLNAME", usiFullName);
+                    rs.updateString("PASSWORD", usiPass);
+                    rs.updateString("USERTYPE", "GUEST");
+                    rs.updateString("EMAIL", usiEmail);
+                    rs.updateNull("CONTACTNUMBER");
+                    rs.updateNull("ADDRESS");
+                    rs.updateNull("VALIDID");
+                    rs.updateNull("BIRTHDATE");
+                    rs.updateNull("SEX");
                     rs.insertRow();
-                    
+                    refreshRsStmt("accounts");
 
                     JOptionPane.showMessageDialog(null, "Registration Complete!");
                     this.dispose();
                     currFullName = usiFullName;
                     currUserType = usiUsertype;
                     currUserID = randID;
-                    toUsertypeBases("READER");       
+                    toUsertypeBases("READER");
+                    databaseConnect("accounts"); 
+                    refreshRsStmt("accounts");
                 }  
+                catch (SQLException err) 
+                {
+                System.out.println(err.getMessage());
+                } 
+                catch (Exception ex) 
+                {
+                    Logger.getLogger(GuestSignUp.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        refreshRsStmt("accounts");
-        }
-        catch (SQLException err)
-        {
-            System.out.println(err.getMessage());
-        } catch (Exception ex) {
-            Logger.getLogger(ReaderSignUp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnConfirm1ActionPerformed
 
@@ -274,10 +257,8 @@ public class ReaderSignUp extends main {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private keeptoo.KGradientPanel kGradientPanel2;
-    private javax.swing.JLabel lblLengthIsLess1;
-    private javax.swing.JLabel lblLengthIsLess2;
-    private javax.swing.JLabel lblPassNotAligned;
     private Panel_Gradient.PanelRound panelRound1;
+    private javax.swing.JTextField txtNewEmail;
     private textfield.TextField txtNewName;
     private textfield.PasswordField txtNewPass;
     private textfield.PasswordField txtNewPassConf;
