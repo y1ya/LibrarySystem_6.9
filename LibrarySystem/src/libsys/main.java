@@ -150,7 +150,7 @@ public class main extends javax.swing.JFrame {
                 {
                     usiID = rs.getInt("USERID");
                     stmt = con.createStatement();
-                    rs = stmt.executeQuery("SELECT * FROM ACCOUNTS WHERE USERID='" + String.valueOf(usiID) + "'");
+                    rs = stmt.executeQuery("SELECT * FROM ACCOUNTS WHERE USERID=" + usiID);
                     if (rs.next()) 
                     {
                         usiUsertype = rs.getString("USERTYPE");

@@ -229,7 +229,7 @@ public class GuestSignUp extends main {
                     currFullName = usiFullName;
                     currUserType = usiUsertype;
                     currUserID = randID;
-                    toUsertypeBases("READER");
+                    toUsertypeBases("GUEST");
                     databaseConnect("accounts"); 
                     refreshRsStmt("accounts");
                 }  
