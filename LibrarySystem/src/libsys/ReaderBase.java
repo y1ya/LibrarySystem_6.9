@@ -1,9 +1,11 @@
 package libsys;
 
 import java.awt.Window;
+import java.sql.Date;
 import libsys.AdminBase;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,9 +14,12 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import javax.swing.table.DefaultTableModel;
+import static libsys.main.currUserID;
 
 public class ReaderBase extends main {
 
@@ -41,6 +46,7 @@ public class ReaderBase extends main {
         cbGenre = new javax.swing.JComboBox<>();
         cbAvail = new javax.swing.JComboBox<>();
         btnMember = new javax.swing.JButton();
+        btnShowBorrowed = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         mainTable = new javax.swing.JTable();
         cbCending = new javax.swing.JComboBox<>();
@@ -86,6 +92,14 @@ public class ReaderBase extends main {
             }
         });
         jPanel1.add(btnMember, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 150, -1, -1));
+
+        btnShowBorrowed.setText("Show Borrowed Book");
+        btnShowBorrowed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowBorrowedActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnShowBorrowed, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 190, 140, -1));
 
         mainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -187,7 +201,7 @@ public class ReaderBase extends main {
                 databaseConnect("accounts");    
                 rs = stmt.executeQuery("SELECT USERTYPE FROM ACCOUNTS WHERE USERID=" + currUserID);
                 if (rs.next()) {
-                    if (rs.getString("USERTYPE").equals("READER")) {
+                    if (rs.getString("USERTYPE").equals("MEMBER")) {
                         sendCloseSignal(viewer);
                         viewer.setVisible(true);
                         BookViewer.hideEdit().setVisible(false);
@@ -195,6 +209,11 @@ public class ReaderBase extends main {
                         sendCloseSignal(viewer);
                         viewer.setVisible(true);
                         BookViewer.hideBorrow().setVisible(false);
+                    } else if (rs.getString("USERTYPE").equals("GUEST")) {
+                        sendCloseSignal(viewer);
+                        viewer.setVisible(true);
+                        BookViewer.hideBorrow().setVisible(false);
+                        BookViewer.hideEdit().setVisible(false);
                     }
                 }
                 refreshRsStmt("accounts");
@@ -215,6 +234,55 @@ public class ReaderBase extends main {
     private void btnMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMemberActionPerformed
         sendDisplaySignal(new MemberSignUp());
     }//GEN-LAST:event_btnMemberActionPerformed
+
+    private void btnShowBorrowedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowBorrowedActionPerformed
+        String n = "";
+        String title;
+        try {
+            databaseConnect("books");
+            rs = stmt.executeQuery("SELECT BORROWER FROM BOOKS WHERE BORROWER=" + currUserID);
+            if(!rs.next()){
+                JOptionPane.showMessageDialog(null, "You are currently not borrowing any book", "Book Details",
+                            JOptionPane.INFORMATION_MESSAGE);                    
+            } else{
+                rs = stmt.executeQuery("SELECT TITLE, DUEDATE, AVAILABILITY FROM BOOKS WHERE BORROWER=" + currUserID);
+                if(rs.next()){
+                title = rs.getString("TITLE");
+                switch(rs.getString("AVAILABILITY")){
+                    case "BORROWING":
+                        n = "\nYou have sent a request to the Librarian to borrow a book.";
+                        break;
+                    case "RETURNING":
+                        n = "\nYou have decided to return the book. Please wait for the Librarian to acknowledge your request.";
+                        break;
+                    case "BORROWED":
+                        n = "\nYou can now borrow the book.";
+                        break;
+                }
+
+                Date localNow = Date.valueOf(LocalDate.now());
+                Date bookDue = rs.getDate("DUEDATE");
+                boolean isOverDue = isOverDue(bookDue, localNow);                              
+                    if(!isOverDue){
+                    JOptionPane.showMessageDialog(null, "You are currently borrowing: " + title + "\nThe book is due: " + rs.getDate("DUEDATE") + n, "Book Details",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } else{
+                    JOptionPane.showMessageDialog(null, "You are currently borrowing: " + title + "\nThe book is due: " + rs.getDate("DUEDATE") +"\nYour book is overdue.", "Book Details",
+                                JOptionPane.INFORMATION_MESSAGE);                    
+                    }
+                }
+            }
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        } catch (NullPointerException err){
+            try {
+                JOptionPane.showMessageDialog(null, "You are currently attempting to borrow: " + rs.getString("TITLE") + n, "Book Details",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(ReaderBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnShowBorrowedActionPerformed
 
     public void allAddBook(String[] bookData) throws Exception 
     {
@@ -497,8 +565,9 @@ public class ReaderBase extends main {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgCategories;
     public Button_Gradient.ButtonGradient btnLogOut;
-    private javax.swing.JButton btnMember;
+    public javax.swing.JButton btnMember;
     private Button_Gradient.ButtonGradient btnSearch;
+    public javax.swing.JButton btnShowBorrowed;
     private Button_Gradient.ButtonGradient btnViewBook;
     private javax.swing.JComboBox<String> cbAvail;
     private javax.swing.JComboBox<String> cbCending;

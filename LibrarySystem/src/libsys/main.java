@@ -189,14 +189,14 @@ public class main extends javax.swing.JFrame {
         }
         else if (matchAcc && !matchPass)
         {
-            txtLogEmail.setText(null);
-            txtLogPass.setText(null);
+            txtLogEmail.setText("");
+            txtLogPass.setText("");
             JOptionPane.showMessageDialog(null, "Incorrect Password!");
         }
         else
         {
-            txtLogEmail.setText(null);
-            txtLogPass.setText(null);
+            txtLogEmail.setText("");
+            txtLogPass.setText("");
             JOptionPane.showMessageDialog(null, "Account not found!", "", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -270,6 +270,7 @@ public class main extends javax.swing.JFrame {
     // Provides the next destination for different Usertypes onced signed in or up
     public void toUsertypeBases(String usertype)
     {
+        ReaderBase reader = new ReaderBase();
         switch (usertype) 
         {
             case "ADMIN":
@@ -278,9 +279,15 @@ public class main extends javax.swing.JFrame {
             case "LIBRARIAN":
                 sendDisplaySignal(new LibrarianBase()); 
                 break;
-            case "GUEST": 
+            case "GUEST":
+                sendCloseSignal(reader);
+                reader.setVisible(true);
+                reader.btnShowBorrowed.setVisible(false);
+                break;                
             case "MEMBER":
-                sendDisplaySignal(new ReaderBase());
+                sendCloseSignal(reader);
+                reader.setVisible(true);
+                reader.btnMember.setVisible(false);
                 break;
         }
     }
@@ -308,12 +315,19 @@ public class main extends javax.swing.JFrame {
     // Returns true if the length of string in a textfield is less than the limit.
     public boolean lessthanLength(int limit, JTextField textfield)
     {
-        if(textfield.getText().length() < limit){
-            return true;
-        } else{
-            return false;
-        }
+        return textfield.getText().length() < limit;
     }
+    
+    public long dateDiff(Date duedate, Date currentdate){
+        long millDiff = duedate.getTime() - currentdate.getTime();
+        long daysDiff = millDiff/(1000 * 60 * 60 * 24);
+        return daysDiff;
+    }
+
+    public boolean isOverDue(Date date, Date now){
+        return now.after(date);
+    }
+    
     // The first statement/s to be called
     public static void main(String[] args) {
         sendDisplaySignal(new MainWindow());

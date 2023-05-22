@@ -256,9 +256,9 @@ public class BookEditor extends main {
     }//GEN-LAST:event_Btn_DeleteActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        new DropTarget(ImageLabel, imageInsert);
         try{
             databaseConnect("books");
+            new DropTarget(ImageLabel, imageInsert);
             rs=stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = "+currBookID);
             while(rs.next()){
                 Title_tf.setText(rs.getString("TITLE"));
@@ -280,9 +280,9 @@ public class BookEditor extends main {
         
                 ImageIcon icon=new ImageIcon(dimg);
                 ImageLabel.setText(null);
-                ImageLabel.setIcon(icon);
-                refreshRsStmt("books");
+                ImageLabel.setIcon(icon);           
             }
+            refreshRsStmt("books");
         }
         catch(SQLException err){
             System.out.println(err.getMessage());

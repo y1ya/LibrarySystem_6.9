@@ -105,6 +105,7 @@ public class LibrarianBase extends main {
     private void btnViewerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewerActionPerformed
         viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         viewer.btnLogOut.setVisible(false);
+        viewer.btnMember.setVisible(false);
         viewer.setVisible(true);
     }//GEN-LAST:event_btnViewerActionPerformed
 
