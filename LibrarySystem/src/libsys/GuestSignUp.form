@@ -136,9 +136,8 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="txtNewName" pref="250" max="32767" attributes="0"/>
+                                          <Component id="txtNewEmail" pref="250" max="32767" attributes="0"/>
                                           <Component id="txtNewPass" alignment="0" pref="250" max="32767" attributes="0"/>
-                                          <Component id="txtNewEmail" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -167,11 +166,9 @@
                               <Component id="jLabel6" min="-2" pref="27" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="txtNewEmail" min="-2" pref="40" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="txtNewName" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtNewEmail" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
@@ -218,7 +215,7 @@
                 <Property name="verticalAlignment" type="int" value="1"/>
               </Properties>
             </Component>
-            <Component class="textfield.TextField" name="txtNewName">
+            <Component class="textfield.TextField" name="txtNewEmail">
               <Properties>
                 <Property name="labelText" type="java.lang.String" value="Enter your full name&#xa;"/>
               </Properties>
@@ -277,8 +274,6 @@
                   <Image iconType="3" name="/icon/password_37px.png"/>
                 </Property>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtNewEmail">
             </Component>
           </SubComponents>
         </Container>

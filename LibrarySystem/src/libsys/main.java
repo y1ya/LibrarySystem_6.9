@@ -137,7 +137,7 @@ public class main extends javax.swing.JFrame {
     // Generic SignIn functionality
     public void signIn(String usertype, JTextField txtLogEmail, JPasswordField txtLogPass) throws Exception 
     {
-        usiEmail = txtLogEmail.getText();
+        usiEmail = txtLogEmail.getText();       
         usiPass = txtLogPass.getText();
         try 
         {
@@ -307,7 +307,14 @@ public class main extends javax.swing.JFrame {
     
     public void getCurrProp() throws SQLException
     {
-        currFullName = rs.getString("FULLNAME");
+        if (usiUsertype.equals("GUEST"))
+        {
+            currFullName = "GUEST";
+        }
+        else
+        {
+            currFullName = rs.getString("FULLNAME");
+        }
         currUserType = rs.getString("USERTYPE");
         currUserID = rs.getInt("USERID");
     }
@@ -322,6 +329,24 @@ public class main extends javax.swing.JFrame {
         long millDiff = duedate.getTime() - currentdate.getTime();
         long daysDiff = millDiff/(1000 * 60 * 60 * 24);
         return daysDiff;
+    }
+    
+    public boolean emailTaken(String usiEmail)
+    {
+        try {
+            databaseConnect("accounts");
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT EMAIL FROM ACCOUNTS WHERE EMAIL='" + usiEmail + "'");
+            if (rs.next())
+            {
+                refreshRsStmt("accounts");
+                return true; 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        refreshRsStmt("accounts");
+        return false;
     }
 
     public boolean isOverDue(Date date, Date now){

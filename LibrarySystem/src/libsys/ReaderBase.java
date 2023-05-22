@@ -228,7 +228,29 @@ public class ReaderBase extends main {
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+       
+        try {
+            databaseConnect("books");
+            List<String> test = new ArrayList();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM BOOKS");
+            while (rs.next()) {
+                String genreValue = rs.getString("GENRE");
+                if (!test.contains(genreValue))
+                    test.add(genreValue);
+            }
+
+            cbGenre.removeAllItems();
+            cbGenre.addItem("All Genres");
+
+            for (String value: test) {
+                cbGenre.addItem(value);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReaderBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initialSearch();
+
     }//GEN-LAST:event_formWindowOpened
 
     private void btnMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMemberActionPerformed
@@ -418,13 +440,6 @@ public class ReaderBase extends main {
         cbAvail.addItem("Unavailable/Available");
         cbAvail.addItem("Available");
         cbAvail.addItem("Unavailable");
-
-        cbGenre.removeAllItems();
-        cbGenre.addItem("All Genres");
-        cbGenre.addItem("Science Fiction");
-        cbGenre.addItem("Horror");
-        cbGenre.addItem("Fantasy");
-        cbGenre.addItem("Dystopian");
         
         cbCending.removeAllItems();
         cbCending.addItem("Ascending");

@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import static libsys.main.currFullName;
 
 public class GuestSignUp extends main {
@@ -22,7 +21,7 @@ public class GuestSignUp extends main {
         panelRound1 = new Panel_Gradient.PanelRound();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtNewName = new textfield.TextField();
+        txtNewEmail = new textfield.TextField();
         jLabel7 = new javax.swing.JLabel();
         txtNewPassConf = new textfield.PasswordField();
         jLabel9 = new javax.swing.JLabel();
@@ -30,7 +29,6 @@ public class GuestSignUp extends main {
         btnConfirm1 = new Button_Gradient.ButtonGradient();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        txtNewEmail = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -72,7 +70,7 @@ public class GuestSignUp extends main {
         jLabel6.setText("Register a new account");
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        txtNewName.setLabelText("Enter your full name\n");
+        txtNewEmail.setLabelText("Enter your full name\n");
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -129,9 +127,8 @@ public class GuestSignUp extends main {
                                     .addComponent(jLabel9))
                                 .addGap(30, 30, 30)
                                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNewName, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                                    .addComponent(txtNewPass, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                                    .addComponent(txtNewEmail)))
+                                    .addComponent(txtNewEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                    .addComponent(txtNewPass, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))
                             .addGroup(panelRound1Layout.createSequentialGroup()
                                 .addGap(43, 43, 43)
                                 .addComponent(btnConfirm1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -149,11 +146,9 @@ public class GuestSignUp extends main {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(txtNewEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(90, 90, 90)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtNewName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNewEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addGap(37, 37, 37)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,19 +178,25 @@ public class GuestSignUp extends main {
     }//GEN-LAST:event_btnBack1ActionPerformed
 
     private void btnConfirm1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirm1ActionPerformed
-  
-        usiFullName = txtNewName.getText();
-        usiPass = String.valueOf(txtNewPass.getPassword());
-        usiEmail = txtNewEmail.getText();
+
         
-        if ((usiFullName.isEmpty()) || usiPass.isEmpty() || usiEmail.isEmpty()) {
+        usiEmail = txtNewEmail.getText();
+        if (emailTaken(usiEmail))
+        {
+            JOptionPane.showMessageDialog(null, "Email already taken");
+            return;
+        }
+        
+        usiPass = String.valueOf(txtNewPass.getPassword());
+        
+        if ( usiPass.isEmpty() || usiEmail.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Must satisfy all fields");
         }
         else if (lessthanLength(6, txtNewPass)) {
             JOptionPane.showMessageDialog(null, "Password must be greater than or equal to 6 characters");
         }
-        else if (lessthanLength(10, txtNewName)) {
-            JOptionPane.showMessageDialog(null, "Name must be greater than or equal to 10 characters");
+        else if (lessthanLength(4, txtNewEmail)) {
+            JOptionPane.showMessageDialog(null, "Email must be greater than or equal to 4 characters");
         }                
         else 
         {
@@ -212,7 +213,7 @@ public class GuestSignUp extends main {
                     databaseConnect("accounts");
                     rs.moveToInsertRow();
                     rs.updateInt("USERID", randID); 
-                    rs.updateString("FULLNAME", usiFullName);
+                    rs.updateNull("FULLNAME");
                     rs.updateString("PASSWORD", usiPass);
                     rs.updateString("USERTYPE", "GUEST");
                     rs.updateString("EMAIL", usiEmail);
@@ -226,7 +227,7 @@ public class GuestSignUp extends main {
 
                     JOptionPane.showMessageDialog(null, "Registration Complete!");
                     this.dispose();
-                    currFullName = usiFullName;
+                    currFullName = "Guest";
                     currUserType = usiUsertype;
                     currUserID = randID;
                     toUsertypeBases("GUEST");
@@ -258,8 +259,7 @@ public class GuestSignUp extends main {
     private javax.swing.JLabel jLabel9;
     private keeptoo.KGradientPanel kGradientPanel2;
     private Panel_Gradient.PanelRound panelRound1;
-    private javax.swing.JTextField txtNewEmail;
-    private textfield.TextField txtNewName;
+    private textfield.TextField txtNewEmail;
     private textfield.PasswordField txtNewPass;
     private textfield.PasswordField txtNewPassConf;
     // End of variables declaration//GEN-END:variables

@@ -221,6 +221,7 @@ public class BookRegistry extends main {
         try{
             databaseConnect("books");
             int newBookID=randNumGen("books","bookid");
+            databaseConnect("books");
             //The columns that are easiest to enter
             rs.moveToInsertRow();
             rs.updateString("TITLE", Title_tf.getText());
