@@ -179,7 +179,6 @@ public class GuestSignUp extends main {
 
     private void btnConfirm1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirm1ActionPerformed
 
-        
         usiEmail = txtNewEmail.getText();
         if (emailTaken(usiEmail))
         {
@@ -193,15 +192,15 @@ public class GuestSignUp extends main {
             JOptionPane.showMessageDialog(null, "Must satisfy all fields");
             return;
         }
-        else if (lessthanLength(6, txtNewPass)) {
+        if (lessthanLength(6, txtNewPass)) {
             JOptionPane.showMessageDialog(null, "Password must be greater than or equal to 6 characters");
             return;
         }
-        else if (lessthanLength(4, txtNewEmail)) {
+        if (lessthanLength(4, txtNewEmail)) {
             JOptionPane.showMessageDialog(null, "Email must be greater than or equal to 4 characters");
             return;
         }                
-        else if (isValidEmail(String.valueOf(usiEmail)))
+        if (!isValidEmail(usiEmail))
         {
             JOptionPane.showMessageDialog(null, "Not a valid email");
             return;
