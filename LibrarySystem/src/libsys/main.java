@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import java.text.DecimalFormat;
 
 public class main extends javax.swing.JFrame {
 
@@ -341,29 +340,11 @@ public class main extends javax.swing.JFrame {
         return textfield.getText().length() < limit;
     }
     
-   //Date 1 must be after date 2 to get a positive result.
-    public static long dateDiff(Date date1, Date date2)
-    {
-        long millDiff = date1.getTime() - date2.getTime();
+    public long dateDiff(Date duedate, Date currentdate){
+        long millDiff = duedate.getTime() - currentdate.getTime(); //hmhmhmm
         long daysDiff = millDiff/(1000 * 60 * 60 * 24);
         return daysDiff;
     }
-    
-    //To get a positive result, Date 1 must be after Date 2. Rate should be something like 15% = 0.15.
-    public static double penaltyCost(Date date1, Date date2, double rate, int baseCost){
-        double penaltyCost;
-        long days = dateDiff(date1, date2);
-        System.out.print(days);
-        try{
-            penaltyCost = baseCost*Math.pow(1+rate, days-1);
-            DecimalFormat df = new DecimalFormat("#######.##");
-            penaltyCost = Double.parseDouble(df.format(penaltyCost));
-            return penaltyCost;
-        } catch(NumberFormatException e){
-            System.out.println("An error occurred: " + e.getMessage());
-            return 0.0f;
-        }
-    }    
     
     public boolean emailTaken(String usiEmail)
     {
@@ -382,8 +363,7 @@ public class main extends javax.swing.JFrame {
         refreshRsStmt("accounts");
         return false;
     }
-    
-    //Returns true if date is after now.
+
     public boolean isOverDue(Date date, Date now){
         return now.after(date);
     }

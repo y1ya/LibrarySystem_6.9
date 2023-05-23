@@ -291,7 +291,7 @@ public class ReaderBase extends main {
                         n = "\nYou have decided to return the book. Please wait for the Librarian to acknowledge your request.";
                         break;
                     case "BORROWED":
-                        n = "\nYou can now borrow the book.";
+                        n = "\nYou can now borrow a book.";
                         break;
                 }
 
