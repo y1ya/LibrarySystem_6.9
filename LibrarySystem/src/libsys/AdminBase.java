@@ -402,9 +402,6 @@ public class AdminBase extends main {
             stringContactNumber = txtNumber.getText();
             
             try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                java.util.Date birthDate = dateFormat.parse(birthdate);
-                java.sql.Date sqlBirthDate = new java.sql.Date(birthDate.getTime());
                 databaseConnect("accounts");
                 if (emailTaken(username)) {
                     JOptionPane.showMessageDialog(null, "Email already taken");
@@ -425,8 +422,12 @@ public class AdminBase extends main {
                 } else if (address.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Must input your address");
                 } else if (stringContactNumber.length() < 11) {
-                    JOptionPane.showMessageDialog(null, "Contact Number must be equal to 11 characters");
+                    JOptionPane.showMessageDialog(null, "Contact Number must be greater than or equal to 11 characters");
                 } else {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    java.util.Date birthDate = dateFormat.parse(birthdate);
+                    java.sql.Date sqlBirthDate = new java.sql.Date(birthDate.getTime());
+                    
                     contactNumber = Long.parseLong(stringContactNumber);
                     if(rs.next()) {
                         rs.moveToInsertRow();
@@ -453,7 +454,7 @@ public class AdminBase extends main {
                 JOptionPane.showMessageDialog(null, err.getMessage());
             } catch (ParseException ex) {
                 Logger.getLogger(AdminBase.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -479,9 +480,6 @@ public class AdminBase extends main {
                 try {
                     ResultSet rs = stmt.executeQuery("SELECT * FROM ACCOUNTS WHERE USERID = " + searchUserID);
                     if (rs.next()) {
-                        notEditing();
-                        showMemberInfo();
-                        
                         txtEmail.setText(rs.getString("EMAIL"));
                         txtPassword.setText(rs.getString("PASSWORD"));
                         txtUserID.setText(String.valueOf(rs.getInt("USERID")));
@@ -492,8 +490,9 @@ public class AdminBase extends main {
                             txtBirthdate.setText(String.valueOf(rs.getDate("BIRTHDATE")));
                             cbSex.setSelectedItem(rs.getString("SEX"));
                             txtAddress.setText(rs.getString("ADDRESS"));
-                            txtNumber.setText(String.valueOf(rs.getInt("CONTACTNUMBER")));
+                            txtNumber.setText(String.valueOf(rs.getLong("CONTACTNUMBER")));
                         }
+                        notEditing();
                     } else {
                         JOptionPane.showMessageDialog(null, "Account not Found.");
                         Default();
@@ -623,9 +622,6 @@ public class AdminBase extends main {
             stringContactNumber = txtNumber.getText();
             
             try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                java.util.Date birthDate = dateFormat.parse(birthdate);
-                java.sql.Date sqlBirthDate = new java.sql.Date(birthDate.getTime());
                 databaseConnect("accounts");
                 if (username.isEmpty() || password.isEmpty() || 
                         txtFirstname.getText().isEmpty() || txtLastname.getText().isEmpty() || birthdate.isEmpty() || address.isEmpty() 
@@ -643,10 +639,14 @@ public class AdminBase extends main {
                     JOptionPane.showMessageDialog(null, "Must input your birthdate");
                 } else if (address.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Must input your address");
-                } else if (stringContactNumber.length() == 11) {
-                    JOptionPane.showMessageDialog(null, "Contact Number must be equal to 11 characters");
+                } else if (stringContactNumber.length() < 10) {
+                    JOptionPane.showMessageDialog(null, "Contact Number must be greater than or equal to 10 characters");
                 } else {
-                    contactNumber = Integer.parseInt(stringContactNumber);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    java.util.Date birthDate = dateFormat.parse(birthdate);
+                    java.sql.Date sqlBirthDate = new java.sql.Date(birthDate.getTime());
+                    
+                    contactNumber = Long.parseLong(stringContactNumber);
                     if(rs.next()) {
                         rs.updateString("EMAIL", username);
                         rs.updateString("PASSWORD", password);
