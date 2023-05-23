@@ -1,7 +1,18 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package libsys;
 
+import java.awt.Color;
+import static java.lang.System.in;
+import java.sql.Date;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -10,29 +21,61 @@ public class AdminBase extends main {
     DefaultTableModel tblAccounts = new DefaultTableModel();
     int x = 0;
     
-    String username, password, usertype, stringuserid, searchUserID;
-    int userid, ids;
+    String username, password, usertype, searchUserID, fullname, birthdate, sex, address, stringContactNumber;
+    int userid, ids, contactNumber;
     
     public AdminBase() {
         initComponents();
         
+        membersPanel.setVisible(false);
         mainTable.setDefaultEditor(Object.class, null);
     }
     
     public int id;
 
+    void showMemberInfo() {
+        txtFullname.setEditable(false);
+        lblFullname.setVisible(true);
+        txtFullname.setVisible(true);
+        lblFirstname.setVisible(false);
+        lblLastname.setVisible(false);
+        txtFirstname.setVisible(false);
+        txtLastname.setVisible(false);
+    }
+    void nullMember() {
+        txtFirstname.setText(null);
+        txtLastname.setText(null);
+        txtBirthdate.setText(null);
+        cbSex.setSelectedIndex(0);
+        txtAddress.setText(null);
+        txtNumber.setText(null);
+    }
+    void editMember() {
+        lblFirstname.setVisible(true);
+        lblLastname.setVisible(true);
+        txtFirstname.setEditable(true);
+        txtLastname.setEditable(true);
+        txtFirstname.setVisible(true);
+        txtLastname.setVisible(true);
+        lblFullname.setVisible(false);
+        txtFullname.setVisible(false);
+        txtBirthdate.setEditable(true);
+        cbSex.setEnabled(true);
+        txtAddress.setEditable(true);
+        txtNumber.setEditable(true);
+    }
     void randNum() {
         id = randNumGen("accounts", "userid");
         txtUserID.setText(String.valueOf(id));
     }
     void Default() {
-        txtUsername.setText(null);
+        txtEmail.setText(null);
         txtPassword.setText(null);
         cbUserType.setSelectedIndex(0);
     }
     
     void editing() {
-        txtUsername.setEditable(true);
+        txtEmail.setEditable(true);
         txtPassword.setEditable(true);
         cbUserType.setEnabled(true);
         randomNum.setVisible(true);
@@ -41,8 +84,7 @@ public class AdminBase extends main {
     }
     
     void adding() {
-        btnAdd.setEnabled(false);
-        txtUsername.setEditable(true);
+        txtEmail.setEditable(true);
         txtPassword.setEditable(true);
         cbUserType.setEnabled(true);
         
@@ -56,10 +98,15 @@ public class AdminBase extends main {
     }
     
     void notEditing() {
-        txtUsername.setEditable(false);
+        txtEmail.setEditable(false);
         txtPassword.setEditable(false);
         cbUserType.setEnabled(false);
-        btnSave.setEnabled(false);
+        txtFirstname.setEditable(false);
+        txtLastname.setEditable(false);
+        txtBirthdate.setEditable(false);
+        cbSex.setEnabled(false);
+        txtAddress.setEditable(false);
+        txtNumber.setEditable(false);
         
         btnSave.setVisible(true);
         btnEdit.setVisible(true);
@@ -69,7 +116,8 @@ public class AdminBase extends main {
     }
     
     public void Table() {
-        String[] columnNames = {"User ID", "Fullname", "Password", "User Type"};
+        String[] columnNames = {"User ID", "Fullname", "Password", "Email", 
+            "Contact Number", "Address", "Birthdate", "Sex", "User Type"};
         tblAccounts.setColumnIdentifiers(columnNames);
         tblAccounts.setRowCount(0);
         
@@ -80,7 +128,12 @@ public class AdminBase extends main {
                 {
                     rs.getInt("USERID"), 
                     rs.getString("FULLNAME"), 
-                    rs.getString("PASSWORD"), 
+                    rs.getString("PASSWORD"),
+                    rs.getString("EMAIL"),
+                    rs.getInt("CONTACTNUMBER"),
+                    rs.getString("ADDRESS"),
+                    rs.getDate("BIRTHDATE"),
+                    rs.getString("SEX"),
                     rs.getString("USERTYPE")
                 });
                 x++;
@@ -100,6 +153,7 @@ public class AdminBase extends main {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         mainTable = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
@@ -107,7 +161,7 @@ public class AdminBase extends main {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         txtPassword = new javax.swing.JTextField();
         txtUserID = new javax.swing.JTextField();
         cbUserType = new javax.swing.JComboBox<>();
@@ -120,6 +174,22 @@ public class AdminBase extends main {
         jLabel5 = new javax.swing.JLabel();
         randomNum = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
+        membersPanel = new javax.swing.JPanel();
+        lblFirstname = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtFirstname = new javax.swing.JTextField();
+        txtAddress = new javax.swing.JTextField();
+        txtNumber = new javax.swing.JTextField();
+        cbSex = new javax.swing.JComboBox<>();
+        txtBirthdate = new javax.swing.JTextField();
+        lblLastname = new javax.swing.JLabel();
+        txtLastname = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        lblFullname = new javax.swing.JLabel();
+        txtFullname = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -137,11 +207,11 @@ public class AdminBase extends main {
         });
         jScrollPane1.setViewportView(mainTable);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 51, 640, 193));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 262, 695, 10));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 51, 918, 193));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 977, 10));
 
-        jLabel1.setText("Username:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 298, -1, -1));
+        jLabel1.setText("Email:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 298, -1, -1));
 
         jLabel2.setText("Password:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 340, -1, -1));
@@ -151,23 +221,16 @@ public class AdminBase extends main {
 
         jLabel4.setText("User Type:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(122, 433, -1, -1));
-
-        txtUsername.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtUsernameKeyTyped(evt);
-            }
-        });
-        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 294, 285, -1));
-
-        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPasswordKeyTyped(evt);
-            }
-        });
+        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 294, 285, -1));
         getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 336, 285, -1));
         getContentPane().add(txtUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 382, 285, -1));
 
-        cbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "READER", "LIBRARIAN", "ADMIN" }));
+        cbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GUEST", "MEMBER", "LIBRARIAN", "ADMIN" }));
+        cbUserType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbUserTypeActionPerformed(evt);
+            }
+        });
         getContentPane().add(cbUserType, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 428, 285, -1));
 
         btnSave.setText("Save");
@@ -228,7 +291,7 @@ public class AdminBase extends main {
                 randomNumActionPerformed(evt);
             }
         });
-        getContentPane().add(randomNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(539, 378, -1, -1));
+        getContentPane().add(randomNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(517, 378, -1, -1));
 
         btnLogout.setText("Log out");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -236,43 +299,161 @@ public class AdminBase extends main {
                 btnLogoutActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 270, -1, -1));
+        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 561, -1, -1));
+
+        membersPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        membersPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblFirstname.setText("First Name:");
+        membersPanel.add(lblFirstname, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 22, -1, -1));
+
+        jLabel7.setText("Birthdate:");
+        membersPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 104, -1, -1));
+
+        jLabel8.setText("Sex:");
+        membersPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 141, -1, -1));
+
+        jLabel9.setText("Address:");
+        membersPanel.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 178, -1, -1));
+
+        jLabel10.setText("Contact Number:");
+        membersPanel.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 214, -1, -1));
+        membersPanel.add(txtFirstname, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 18, 160, -1));
+        membersPanel.add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 174, 160, -1));
+
+        txtNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumberKeyTyped(evt);
+            }
+        });
+        membersPanel.add(txtNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 210, 160, -1));
+
+        cbSex.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Other" }));
+        membersPanel.add(cbSex, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 136, -1, -1));
+        membersPanel.add(txtBirthdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 100, 160, -1));
+
+        lblLastname.setText("Last name:");
+        membersPanel.add(lblLastname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 58, -1, -1));
+        membersPanel.add(txtLastname, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 54, 160, -1));
+
+        jLabel11.setFont(new java.awt.Font("Dialog", 2, 8)); // NOI18N
+        jLabel11.setText("YYYY-MM-DD");
+        membersPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 84, -1, -1));
+
+        lblFullname.setText("Fullname:");
+        membersPanel.add(lblFullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, -1, -1));
+        membersPanel.add(txtFullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 160, -1));
+
+        getContentPane().add(membersPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 270, 295, 259));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        username = txtUsername.getText();
-        password = txtPassword.getText();
-        userid = Integer.parseInt(txtUserID.getText());
-        usertype = String.valueOf(cbUserType.getSelectedItem());
+        if (cbUserType.getSelectedItem() != "MEMBER") {
+            username = txtEmail.getText();
+            password = txtPassword.getText();
+            userid = Integer.parseInt(txtUserID.getText());
+            usertype = String.valueOf(cbUserType.getSelectedItem());
         
-        try {
-            databaseConnect("accounts");
-            if (username.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Fill in the blanks!");
-                // JOPTIONPANE
-            } else {
-                if(rs.next()) {
-                    rs.moveToInsertRow();
-                    rs.updateInt("USERID", userid);
-                    rs.updateString("FULLNAME", username);
-                    rs.updateString("PASSWORD", password);
-                    rs.updateString("USERTYPE", usertype);
-                    rs.insertRow();
-                    refreshRsStmt("accounts");
+            try {
+                databaseConnect("accounts");
+                if (emailTaken(username)) {
+                    JOptionPane.showMessageDialog(null, "Email already taken");
+                    return;
+                } 
+                if (username.isEmpty() || password.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Must satisfy all fields");
+                } else if (username.length() < 4) {
+                    JOptionPane.showMessageDialog(null, "Email must be greater than or equal to 4 characters");
+                } else if (password.length() < 6) {
+                    JOptionPane.showMessageDialog(null, "Password must be greater than or equal to 6 characters");
+                } else {
+                    if(rs.next()) {
+                        rs.moveToInsertRow();
+                        rs.updateInt("USERID", userid);
+                        rs.updateString("EMAIL", username);
+                        rs.updateString("PASSWORD", password);
+                        rs.updateString("USERTYPE", usertype);
+                        rs.insertRow();
+                        refreshRsStmt("accounts");
 
-                    JOptionPane.showMessageDialog(null, "Account has been Added!");
-                    Default();
-                    randNum();
-                    Table();
+                        JOptionPane.showMessageDialog(null, "Account has been Added!");
+                        Default();
+                        randNum();
+                        Table();
+                    }
                 }
+                
+            } catch (SQLException err) {
+                JOptionPane.showMessageDialog(null, err.getMessage());
             }
-        } catch (SQLException err) {
-            JOptionPane.showMessageDialog(null, err.getMessage());
+        } else {
+            username = txtEmail.getText();
+            password = txtPassword.getText();
+            userid = Integer.parseInt(txtUserID.getText());
+            usertype = String.valueOf(cbUserType.getSelectedItem());
+            fullname = txtFirstname.getText() + " " + txtLastname.getText();
+            birthdate = txtBirthdate.getText().trim();
+            sex = String.valueOf(cbSex.getSelectedItem());
+            address = txtAddress.getText();
+            stringContactNumber = txtNumber.getText();
+            
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date birthDate = dateFormat.parse(birthdate);
+                java.sql.Date sqlBirthDate = new java.sql.Date(birthDate.getTime());
+                databaseConnect("accounts");
+                if (emailTaken(username)) {
+                    JOptionPane.showMessageDialog(null, "Email already taken");
+                    return;
+                } 
+                if (username.isEmpty() || password.isEmpty() ||
+                        txtFirstname.getText().isEmpty() || txtLastname.getText().isEmpty() 
+                        || birthdate.isEmpty() || address.isEmpty() || stringContactNumber.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Must satisfy all fields");
+                } else if (username.length() < 4) {
+                    JOptionPane.showMessageDialog(null, "Email must be greater than or equal to 4 characters");
+                } else if (password.length() < 6) {
+                    JOptionPane.showMessageDialog(null, "Password must be greater than or equal to 6 characters");
+                } else if (fullname.length() < 3) {
+                    JOptionPane.showMessageDialog(null, "Fullname must be greater than or equal to 3 characters");
+                } else if (birthdate.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Must input your birthdate");
+                } else if (address.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Must input your address");
+                } else if (stringContactNumber.length() < 11) {
+                    JOptionPane.showMessageDialog(null, "Contact Number must be equal to 11 characters");
+                } else {
+                    contactNumber = Integer.parseInt(stringContactNumber);
+                    if(rs.next()) {
+                        rs.moveToInsertRow();
+                        rs.updateInt("USERID", userid);
+                        rs.updateString("EMAIL", username);
+                        rs.updateString("PASSWORD", password);
+                        rs.updateString("FULLNAME", fullname);
+                        rs.updateDate("BIRTHDATE", sqlBirthDate);
+                        rs.updateString("SEX", sex);
+                        rs.updateString("ADDRESS", address);
+                        rs.updateInt("CONTACTNUMBER", contactNumber);
+                        rs.updateString("USERTYPE", usertype);
+                        rs.insertRow();
+                        refreshRsStmt("accounts");
+
+                        JOptionPane.showMessageDialog(null, "Account has been Added!");
+                        Default();
+                        randNum();
+                        editMember();
+                        Table();
+                    }
+                }
+            } catch (SQLException err) {
+                JOptionPane.showMessageDialog(null, err.getMessage());
+            } catch (ParseException ex) {
+                Logger.getLogger(AdminBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -298,16 +479,26 @@ public class AdminBase extends main {
                     ResultSet rs = stmt.executeQuery("SELECT * FROM ACCOUNTS WHERE USERID = " + searchUserID);
                     if (rs.next()) {
                         notEditing();
+                        showMemberInfo();
                         
-                        txtUsername.setText(rs.getString("FULLNAME"));
+                        txtEmail.setText(rs.getString("EMAIL"));
                         txtPassword.setText(rs.getString("PASSWORD"));
                         txtUserID.setText(String.valueOf(rs.getInt("USERID")));
                         cbUserType.setSelectedItem(rs.getString("USERTYPE"));
+                        if (cbUserType.getSelectedItem() == "MEMBER") {
+                            showMemberInfo();
+                            txtFullname.setText(rs.getString("FULLNAME"));
+                            txtBirthdate.setText(String.valueOf(rs.getDate("BIRTHDATE")));
+                            cbSex.setSelectedItem(rs.getString("SEX"));
+                            txtAddress.setText(rs.getString("ADDRESS"));
+                            txtNumber.setText(String.valueOf(rs.getInt("CONTACTNUMBER")));
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Account not Found.");
                         Default();
                         adding();
                     }
+                    refreshRsStmt("accounts");
                 } catch (SQLException err) {
                         JOptionPane.showMessageDialog(null, err.getMessage());
                 }
@@ -325,11 +516,18 @@ public class AdminBase extends main {
             databaseConnect("accounts");
             ResultSet rs = stmt.executeQuery("SELECT * FROM ACCOUNTS WHERE USERID = " + ids);
             if (rs.next()) {
-                txtUsername.setText(rs.getString("FULLNAME"));
+                txtEmail.setText(rs.getString("EMAIL"));
                 txtPassword.setText(rs.getString("PASSWORD"));
                 txtUserID.setText(String.valueOf(rs.getInt("USERID")));
                 cbUserType.setSelectedItem(rs.getString("USERTYPE"));
-               
+                if (cbUserType.getSelectedItem() == "MEMBER") {
+                    showMemberInfo();
+                    txtFullname.setText(rs.getString("FULLNAME"));
+                    txtBirthdate.setText(String.valueOf(rs.getDate("BIRTHDATE")));
+                    cbSex.setSelectedItem(rs.getString("SEX"));
+                    txtAddress.setText(rs.getString("ADDRESS"));
+                    txtNumber.setText(String.valueOf(rs.getInt("CONTACTNUMBER")));
+                }
                 notEditing();
             }
             refreshRsStmt("accounts");
@@ -340,7 +538,30 @@ public class AdminBase extends main {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
+        userid = Integer.parseInt(txtUserID.getText());
         editing();
+        if (cbUserType.getSelectedItem() == "MEMBER") {
+            editMember();
+            try {
+                databaseConnect("accounts");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM ACCOUNTS WHERE USERID = " + userid);
+                if (rs.next()) {
+                    String fullname = rs.getString("FULLNAME");
+                    String[] name = fullname.split(" ");
+                    StringBuilder resultBuilder = new StringBuilder();
+                    for (int i = 0; i < name.length - 1; i++) {
+                        resultBuilder.append(name[i]).append(" ");
+                    }
+                    String result = resultBuilder.toString().trim();
+                    txtFirstname.setText(result);
+                    String lastname = name[name.length - 1];
+                    txtLastname.setText(lastname);
+                }
+                refreshRsStmt("accounts");
+            } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null, err.getMessage());
+        }
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void randomNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomNumActionPerformed
@@ -348,48 +569,107 @@ public class AdminBase extends main {
         randNum();
     }//GEN-LAST:event_randomNumActionPerformed
 
-    private void txtUsernameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsernameKeyTyped
-        // TODO add your handling code here:
-        if (txtUsername.getText().length() < 5) {
-            // JOPTIONPANE
-            btnAdd.setEnabled(false);
-            btnSave.setEnabled(false);
-        } else {
-            // JOPTIONPANE
-            btnAdd.setEnabled(true);
-            btnSave.setEnabled(true);
-        }
-    }//GEN-LAST:event_txtUsernameKeyTyped
-
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-        userid = Integer.parseInt(txtUserID.getText());
-        username = txtUsername.getText();
-        password = txtPassword.getText();
-        usertype = String.valueOf(cbUserType.getSelectedItem());
-        
-        if (username.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Fill in the blanks!");
-                // JOPTIONPANE
-        } else {
-            try {
-                databaseConnect("accounts");
-                ResultSet rs = stmt.executeQuery("SELECT * FROM ACCOUNTS WHERE USERID = " + userid);
-                if (rs.next()) {
-                    rs.updateString("FULLNAME", username);
-                    rs.updateString("PASSWORD", password);
-                    rs.updateRow();
-                    rs.updateString("USERTYPE", usertype);
-                    refreshRsStmt("accounts");
+        if (cbUserType.getSelectedItem() != "MEMBER") {
+            userid = Integer.parseInt(txtUserID.getText());
+            username = txtEmail.getText();
+            password = txtPassword.getText();
+            usertype = String.valueOf(cbUserType.getSelectedItem());
 
-                    JOptionPane.showMessageDialog(null, "Account has been updated!");
-                    adding();
-                    Default();
-                    Table();
+            if (username.isEmpty() || password.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Fill in the blanks!");
+            } else if (username.length() < 4) {
+                JOptionPane.showMessageDialog(null, "Email must be greater than or equal to 4 characters");
+            } else if (password.length() < 6) {
+                JOptionPane.showMessageDialog(null, "Password must be greater than or equal to 6 characters");
+            } else {
+                try {
+                    databaseConnect("accounts");
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM ACCOUNTS WHERE USERID = " + userid);
+                    if (rs.next()) {
+                        rs.updateString("EMAIL", username);
+                        rs.updateString("PASSWORD", password);
+                        rs.updateString("USERTYPE", usertype);
+                        rs.updateNull("FULLNAME");
+                        rs.updateNull("BIRTHDATE");
+                        rs.updateNull("SEX");
+                        rs.updateNull("ADDRESS");
+                        rs.updateNull("CONTACTNUMBER");
+                        rs.updateString("USERTYPE", usertype);
+                        rs.updateRow();
+                        refreshRsStmt("accounts");
+
+                        JOptionPane.showMessageDialog(null, "Account has been updated!");
+                        adding();
+                        Default();
+                        Table();
+                    }
+                    refreshRsStmt("accounts");
+                } catch (SQLException err) {
+                    JOptionPane.showMessageDialog(null, err.getMessage());
+                }
+            } 
+        } else {
+            username = txtEmail.getText();
+            password = txtPassword.getText();
+            userid = Integer.parseInt(txtUserID.getText());
+            usertype = String.valueOf(cbUserType.getSelectedItem());
+            fullname = txtFirstname.getText() + " " + txtLastname.getText();
+            birthdate = txtBirthdate.getText();
+            sex = String.valueOf(cbSex.getSelectedItem());
+            address = txtAddress.getText();
+            stringContactNumber = txtNumber.getText();
+            
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date birthDate = dateFormat.parse(birthdate);
+                java.sql.Date sqlBirthDate = new java.sql.Date(birthDate.getTime());
+                databaseConnect("accounts");
+                if (username.isEmpty() || password.isEmpty() || 
+                        txtFirstname.getText().isEmpty() || txtLastname.getText().isEmpty() || birthdate.isEmpty() || address.isEmpty() 
+                        || stringContactNumber.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Must satisfy all fields");
+                } if (username.length() < 4) {
+                    JOptionPane.showMessageDialog(null, "Email must be greater than or equal to 4 characters");
+                } else if (password.length() < 6) {
+                    JOptionPane.showMessageDialog(null, "Password must be greater than or equal to 6 characters");
+                } else if (txtFirstname.getText().length() < 3) {
+                    JOptionPane.showMessageDialog(null, "Firstname must be greater than or equal to 3 characters");
+                } else if (txtLastname.getText().length() < 3) {
+                    JOptionPane.showMessageDialog(null, "Lastname must be greater than or equal to 3 characters");
+                } else if (birthdate.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Must input your birthdate");
+                } else if (address.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Must input your address");
+                } else if (stringContactNumber.length() == 11) {
+                    JOptionPane.showMessageDialog(null, "Contact Number must be equal to 11 characters");
+                } else {
+                    contactNumber = Integer.parseInt(stringContactNumber);
+                    if(rs.next()) {
+                        rs.updateString("EMAIL", username);
+                        rs.updateString("PASSWORD", password);
+                        rs.updateString("FULLNAME", fullname);
+                        rs.updateDate("BIRTHDATE", sqlBirthDate);
+                        rs.updateString("SEX", sex);
+                        rs.updateString("ADDRESS", address);
+                        rs.updateInt("CONTACTNUMBER", contactNumber);
+                        rs.updateString("USERTYPE", usertype);
+                        rs.updateRow();
+                        refreshRsStmt("accounts");
+
+                        JOptionPane.showMessageDialog(null, "Account has been updated!");
+                        Default();
+                        adding();
+                        editMember();
+                        Table();
+                    }
                 }
             } catch (SQLException err) {
                 JOptionPane.showMessageDialog(null, err.getMessage());
-            }
+            } catch (ParseException ex) {
+                Logger.getLogger(AdminBase.class.getName()).log(Level.SEVERE, null, ex);
+            } 
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -441,19 +721,6 @@ public class AdminBase extends main {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void txtPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyTyped
-        // TODO add your handling code here:
-        if (txtPassword.getText().length() < 3) {
-            // JOPTIONPANE
-            btnAdd.setEnabled(false);
-            btnSave.setEnabled(false);
-        } else {
-            // JOPTIONPANE
-            btnAdd.setEnabled(true);
-            btnSave.setEnabled(true);
-        }
-    }//GEN-LAST:event_txtPasswordKeyTyped
-
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
         logOut();
@@ -464,6 +731,25 @@ public class AdminBase extends main {
         adding();
         randNum();
     }//GEN-LAST:event_formWindowOpened
+
+    private void cbUserTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbUserTypeActionPerformed
+        // TODO add your handling code here:
+        if (cbUserType.getSelectedItem() == "MEMBER") {
+            membersPanel.setVisible(true);
+            nullMember();
+            editMember();
+        } else {
+            membersPanel.setVisible(false);
+        }
+    }//GEN-LAST:event_cbUserTypeActionPerformed
+
+    private void txtNumberKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumberKeyTyped
+        // TODO add your handling code here:
+        char num = evt.getKeyChar();
+        if (!(Character.isDigit(num))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNumberKeyTyped
 
     private boolean checkBorrowedBooks(int userid) {
         try {
@@ -484,7 +770,8 @@ public class AdminBase extends main {
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(null, err.getMessage());
             return false;
-        }     
+        }
+        
     }
     
     private void updateBorrowedBooks(int userid) {
@@ -511,18 +798,35 @@ public class AdminBase extends main {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSearch;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cbSex;
     private javax.swing.JComboBox<String> cbUserType;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblFirstname;
+    private javax.swing.JLabel lblFullname;
+    private javax.swing.JLabel lblLastname;
     private javax.swing.JTable mainTable;
+    private javax.swing.JPanel membersPanel;
     private javax.swing.JButton randomNum;
+    private javax.swing.JTextField txtAddress;
+    private javax.swing.JTextField txtBirthdate;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtFirstname;
+    private javax.swing.JTextField txtFullname;
+    private javax.swing.JTextField txtLastname;
+    private javax.swing.JTextField txtNumber;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtUserID;
-    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

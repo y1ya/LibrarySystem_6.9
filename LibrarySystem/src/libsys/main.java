@@ -162,7 +162,6 @@ public class main extends javax.swing.JFrame {
                             matchAcc = true; 
                             matchPass = true;
                             matchType = true;
-                            databaseConnect("accounts");
                             getCurrProp();
                         }
                         else
@@ -227,11 +226,12 @@ public class main extends javax.swing.JFrame {
                         usiUsertype = rs.getString("USERTYPE");
                         if (usiUsertype.equals(usertype1) || usiUsertype.equals(usertype2)) 
                         {
+                            JOptionPane.showMessageDialog(null, "You Successfully Logged in!");
                             matchAcc = true; 
                             matchPass = true;
                             matchType = true;
-                            databaseConnect("accounts");
                             getCurrProp();
+                            notifSystem();
                         } else 
                         {
                             matchAcc = true; 
@@ -254,13 +254,11 @@ public class main extends javax.swing.JFrame {
 
         if (matchAcc && matchPass && matchType) 
         {
-            JOptionPane.showMessageDialog(null, "Successfully Logged in!");
             this.dispose();
             toUsertypeBases(currUserType);
         } 
         else if (matchAcc && !matchPass) 
         {
-            txtLogEmail.setText("");
             txtLogPass.setText("");
             JOptionPane.showMessageDialog(null, "Incorrect Password!");
         } 
@@ -313,6 +311,7 @@ public class main extends javax.swing.JFrame {
     
     public void getCurrProp() throws SQLException
     {
+        databaseConnect("accounts");
         stmt = con.createStatement();
         rs = stmt.executeQuery("SELECT FULLNAME, USERTYPE, EMAIL, USERID, PASSWORD FROM ACCOUNTS WHERE EMAIL='" + usiEmail + "'");
         if (rs.next())
@@ -369,11 +368,54 @@ public class main extends javax.swing.JFrame {
     }
     
     public static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    
     public static boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+    
+    public void notifSystem() throws SQLException
+    {
+        databaseConnect("books");
+        stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        rs = stmt.executeQuery("SELECT DUEDATE, AVAILABILITY, NOTIFYRETURNED, NOTIFYBORROWED FROM BOOKS WHERE BORROWER=" + currUserID);
+        if (rs.next())
+        {
+            String avail = rs.getString("AVAILABILITY");
+            int ret = rs.getInt("NOTIFYRETURNED");
+            int borr = rs.getInt("NOTIFYBORROWED");
+            
+            if (avail.equals(null))
+            {
+                System.out.println("Null");
+            }
+            else
+            {
+                if (avail.equals("BORROWED") && borr == 1)
+                {
+                    JOptionPane.showMessageDialog(null, "Your borrow request has been accepted");
+                    rs.updateInt("NOTIFYBORROWED", 0);
+ 
+                }
+                if (avail.equals("BORROWED") && borr ==-1)
+                {
+                    JOptionPane.showMessageDialog(null, "Unfortunately, your borrow request has been denied");
+                    rs.updateInt("NOTIFYBORROWED", 0);
+                }
+                if (avail.equals("AVAILABLE") && ret == 1);
+                {
+                    JOptionPane.showMessageDialog(null, "Your return request has been accepted");
+                    rs.updateInt("NOTIFYRETURNED", 0);
+                }  
+                if (avail.equals("AVAILABLE") && ret == -1)
+                {
+                    JOptionPane.showMessageDialog(null, "Unfortunately, your return request has been denied");
+                    rs.updateInt("NOTIFYRETURNED", 0);
+                }
+            }
+            rs.updateRow();
+        }
+        refreshRsStmt("books");                         
     }
     
     // The first statement/s to be called

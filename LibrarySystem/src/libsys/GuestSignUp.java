@@ -201,7 +201,7 @@ public class GuestSignUp extends main {
             JOptionPane.showMessageDialog(null, "Email must be greater than or equal to 4 characters");
             return;
         }                
-        else if (isValidEmail(String.valueOf(usiEmail)))
+        else if (!isValidEmail(String.valueOf(usiEmail)))
         {
             JOptionPane.showMessageDialog(null, "Not a valid email");
             return;

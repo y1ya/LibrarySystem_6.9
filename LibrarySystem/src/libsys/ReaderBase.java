@@ -47,6 +47,7 @@ public class ReaderBase extends main {
         cbAvail = new javax.swing.JComboBox<>();
         btnMember = new javax.swing.JButton();
         btnShowBorrowed = new javax.swing.JButton();
+        holyNotif = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         mainTable = new javax.swing.JTable();
         cbCending = new javax.swing.JComboBox<>();
@@ -84,7 +85,7 @@ public class ReaderBase extends main {
         cbAvail.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Unavailable / Available", "" }));
         jPanel1.add(cbAvail, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 20, -1, 31));
 
-        btnMember.setText("Become a member");
+        btnMember.setText("Become a member!");
         btnMember.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMemberActionPerformed(evt);
@@ -99,6 +100,9 @@ public class ReaderBase extends main {
             }
         });
         jPanel1.add(btnShowBorrowed, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 220, 190, -1));
+
+        holyNotif.setText("jLabel1");
+        jPanel1.add(holyNotif, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 310, -1, -1));
 
         mainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -609,6 +613,7 @@ public class ReaderBase extends main {
     private javax.swing.JComboBox<String> cbAvail;
     private javax.swing.JComboBox<String> cbCending;
     private javax.swing.JComboBox<String> cbGenre;
+    private javax.swing.JLabel holyNotif;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

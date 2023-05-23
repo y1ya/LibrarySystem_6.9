@@ -215,13 +215,13 @@ public class MemberSignUp extends main{
         String theFullName = String.valueOf(tfFirst.getText().trim()) + " " + 
              String.valueOf(tfMiddle.getText().trim()) + " " +
              String.valueOf(tfLast.getText().trim());
-        long theContact;   
+        String theContact;   
         String theAddress = tfAddress.getText().trim();
         String birthDateString = tfBirth.getText().trim();
         String theSex = String.valueOf(cbSex.getSelectedItem());
         
         try {
-            theContact= Integer.parseInt(tfContact.getText().trim());  
+            theContact= tfContact.getText().trim();  
             if (!String.valueOf(theContact).startsWith("09"))
             {
                 JOptionPane.showMessageDialog(null, "Contact number prefix is not valid");
@@ -261,7 +261,7 @@ public class MemberSignUp extends main{
                 {
                     rs.updateString("FULLNAME", theFullName);
                     rs.updateString("USERTYPE", "MEMBER");
-                    rs.updateLong("CONTACTNUMBER", theContact);
+                    rs.updateLong("CONTACTNUMBER", Long.parseLong(theContact));
                     rs.updateString("ADDRESS", theAddress);
                     rs.updateNull("VALIDID"); /// <--- enter valid ID here
                     rs.updateDate("BIRTHDATE", sqlBirthDate);

@@ -228,7 +228,6 @@ public class BookBorrowMan extends main {
         String[] columnNames1 = {"BorrowerID", "Title", "BookID", "Availability"};
         borrowTableModel = new DefaultTableModel(columnNames1, 0);
         borrowTable.setModel(borrowTableModel);
-
         
         try {
             databaseConnect("books");
@@ -346,8 +345,11 @@ public class BookBorrowMan extends main {
                         availability = "BORROWED";
                         updateRs.updateString("AVAILABILITY", availability);
                         updateRs.updateDate("BORROWEDDATE", localNow);
+                        updateRs.updateInt("NOTIFYBORROWED", 1);
                         updateRs.updateRow();
                     } else if (availability.equals("RETURNING") && (diff_of_dates >= 0)) {
+                        updateRs.updateInt("NOTIFYRETURNED", 1);
+                        updateRs.updateRow();
                         BookTitle=updateRs.getString("TITLE");
                         ChangeNumberOfCopies(BookTitle);
                         deleteAction();
@@ -405,12 +407,15 @@ public class BookBorrowMan extends main {
                 while (updateRs.next()) {
                     availability = updateRs.getString("AVAILABILITY");
                     if (availability.equals("BORROWING")) {
+                        updateRs.updateInt("NOTIFYBORROWED", -1);
+                        updateRs.updateRow();
                         BookTitle=updateRs.getString("TITLE");
                         ChangeNumberOfCopies(BookTitle);
                         deleteAction();
                     } else if (availability.equals("RETURNING")) {
                         availability = "BORROWED";
                         updateRs.updateString("AVAILABILITY", availability);
+                        updateRs.updateInt("NOTIFYRETURNED", -1);
                         updateRs.updateRow();
                     } else {
                         JOptionPane.showMessageDialog(null, "Book Overdue. Please handle the case for overdue books.");
