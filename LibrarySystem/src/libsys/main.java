@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.Random;
 import java.awt.Window;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -339,7 +341,7 @@ public class main extends javax.swing.JFrame {
     }
     
     public long dateDiff(Date duedate, Date currentdate){
-        long millDiff = duedate.getTime() - currentdate.getTime();
+        long millDiff = duedate.getTime() - currentdate.getTime(); //hmhmhmm
         long daysDiff = millDiff/(1000 * 60 * 60 * 24);
         return daysDiff;
     }
@@ -364,6 +366,14 @@ public class main extends javax.swing.JFrame {
 
     public boolean isOverDue(Date date, Date now){
         return now.after(date);
+    }
+    
+    public static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    
+    public static boolean isValidEmail(String email) {
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
     
     // The first statement/s to be called

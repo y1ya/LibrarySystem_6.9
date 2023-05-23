@@ -191,13 +191,21 @@ public class GuestSignUp extends main {
         
         if ( usiPass.isEmpty() || usiEmail.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Must satisfy all fields");
+            return;
         }
         else if (lessthanLength(6, txtNewPass)) {
             JOptionPane.showMessageDialog(null, "Password must be greater than or equal to 6 characters");
+            return;
         }
         else if (lessthanLength(4, txtNewEmail)) {
             JOptionPane.showMessageDialog(null, "Email must be greater than or equal to 4 characters");
+            return;
         }                
+        else if (isValidEmail(String.valueOf(usiEmail)))
+        {
+            JOptionPane.showMessageDialog(null, "Not a valid email");
+            return;
+        }
         else 
         {
             if (!String.valueOf(txtNewPass.getPassword()).equals(String.valueOf(txtNewPassConf.getPassword()))) 
