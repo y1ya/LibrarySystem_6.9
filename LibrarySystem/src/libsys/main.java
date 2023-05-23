@@ -22,7 +22,7 @@ public class main extends javax.swing.JFrame {
     
     // universal variables for accounts database 
     String usiEmail, usiSex, usiAddress, usiFullName, usiPass, usicPass, 
-           usiUsertype, aFullname, aPassword, aUserType, aStringUserID;
+           usiUsertype;
     int usiID, usiContact;
     boolean matchAcc = false, matchPass = false, matchType = false;
     int randID, aUserID;

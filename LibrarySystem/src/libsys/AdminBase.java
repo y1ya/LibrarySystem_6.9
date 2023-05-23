@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package libsys;
 
 import java.sql.*;
@@ -488,8 +484,7 @@ public class AdminBase extends main {
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(null, err.getMessage());
             return false;
-        }
-        
+        }     
     }
     
     private void updateBorrowedBooks(int userid) {

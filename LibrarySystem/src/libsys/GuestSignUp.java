@@ -70,7 +70,7 @@ public class GuestSignUp extends main {
         jLabel6.setText("Register a new account");
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        txtNewEmail.setLabelText("Enter your full name\n");
+        txtNewEmail.setLabelText("Enter your Email\n");
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -163,7 +163,7 @@ public class GuestSignUp extends main {
                 .addGap(64, 64, 64))
         );
 
-        kGradientPanel2.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 84, 410, 620));
+        kGradientPanel2.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 90, 410, 620));
 
         getContentPane().add(kGradientPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1330, 760));
 

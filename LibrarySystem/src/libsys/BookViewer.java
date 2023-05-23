@@ -264,10 +264,12 @@ public class BookViewer extends main {
             {
                 try 
                 {
-                    rs = stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = " + currBookID);
+                    rs = stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = " + newbookID); //BRUHH BROKEN since new this var is random everytime
                     if (rs.next())
                     {
                         rs.updateString("AVAILABILITY", "RETURNING");
+                        LocalDate currentDate = LocalDate.now();
+                        rs.updateDate("RETURNEDDATE", java.sql.Date.valueOf(currentDate));
                         rs.updateRow();            
                     }
                     refreshRsStmt("books");
