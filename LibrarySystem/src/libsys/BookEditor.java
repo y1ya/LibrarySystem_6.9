@@ -305,7 +305,6 @@ public class BookEditor extends main {
                 System.out.println(err);
         }
         this.dispose();
-        sendDisplaySignal(new LibrarianBase());
     }
     
     private void CopyImage(String destinationpath) throws IOException{
