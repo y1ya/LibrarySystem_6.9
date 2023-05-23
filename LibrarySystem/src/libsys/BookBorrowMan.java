@@ -348,7 +348,6 @@ public class BookBorrowMan extends main {
                         updateRs.updateDate("BORROWEDDATE", localNow);
                         updateRs.updateRow();
                     } else if (availability.equals("RETURNING") && (diff_of_dates >= 0)) {
-                        updateRs.updateDate("RETURNEDDATE", localNow);
                         BookTitle=updateRs.getString("TITLE");
                         ChangeNumberOfCopies(BookTitle);
                         deleteAction();
@@ -491,21 +490,28 @@ public class BookBorrowMan extends main {
     }
     
     private void ChangeNumberOfCopies(String BookName)throws SQLException{
+        databaseConnect("books");
+        con.setAutoCommit(false); 
         rs=stmt.executeQuery("SELECT * FROM BOOKS WHERE TITLE = '"+BookName+"' AND AVAILABILITY = 'AVAILABLE'");
         while(rs.next()){
             int newCopies=rs.getInt("COPIES")+1;
             rs.updateInt("COPIES", newCopies);
             rs.updateRow();
         }
+        con.commit(); // Manually commit the changes
+        con.setAutoCommit(true); // Enable auto-commit
         refreshRsStmt("books");
     }
 
-    private void deleteAction()throws SQLException{
+    private void deleteAction() throws SQLException {
+        databaseConnect("books");
+        con.setAutoCommit(false); 
         rs=stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = " + borrBookID);
         while(rs.next()){
             rs.deleteRow();
-            rs.close();
         }
+        con.commit(); // Manually commit the changes
+        con.setAutoCommit(true); // Enable auto-commit
         refreshRsStmt("books");
     }
 
