@@ -190,7 +190,7 @@ public class MemberSignUp extends main{
         String theFullName = String.valueOf(tfFirst.getText().trim()) + " " + 
              String.valueOf(tfMiddle.getText().trim()) + " " +
              String.valueOf(tfLast.getText().trim());
-        int theContact = Integer.parseInt(tfContact.getText().trim());    
+        long theContact = Integer.parseInt(tfContact.getText().trim());    
         String theAddress = tfAddress.getText().trim();
         String birthDateString = tfBirth.getText().trim();
         String theSex = String.valueOf(cbSex.getSelectedItem());
@@ -220,7 +220,7 @@ public class MemberSignUp extends main{
                 {
                     rs.updateString("FULLNAME", theFullName);
                     rs.updateString("USERTYPE", "MEMBER");
-                    rs.updateInt("CONTACTNUMBER", theContact);
+                    rs.updateLong("CONTACTNUMBER", theContact);
                     rs.updateString("ADDRESS", theAddress);
                     rs.updateNull("VALIDID"); /// <--- enter valid ID here
                     rs.updateDate("BIRTHDATE", sqlBirthDate);
@@ -240,6 +240,9 @@ public class MemberSignUp extends main{
                     refreshRsStmt("accounts");
                     this.dispose();
                     JOptionPane.showMessageDialog(null, "You've successfully upgraded to Member!");
+                    sendCloseSignal(new ReaderBase());
+                    sendDisplaySignal(new MainWindow());
+                    
                 }
             }  
             catch (SQLException err) 

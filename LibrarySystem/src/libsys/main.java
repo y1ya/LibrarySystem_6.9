@@ -312,7 +312,7 @@ public class main extends javax.swing.JFrame {
     public void getCurrProp() throws SQLException
     {
         stmt = con.createStatement();
-        rs = stmt.executeQuery("SELECT USERTYPE, EMAIL, USERID, PASSWORD FROM ACCOUNTS WHERE EMAIL='" + usiEmail + "'");
+        rs = stmt.executeQuery("SELECT FULLNAME, USERTYPE, EMAIL, USERID, PASSWORD FROM ACCOUNTS WHERE EMAIL='" + usiEmail + "'");
         if (rs.next())
         {
             if (rs.getString("USERTYPE").equals("GUEST"))
@@ -327,7 +327,7 @@ public class main extends javax.swing.JFrame {
             currPass = rs.getString("PASSWORD");
             currUserType = rs.getString("USERTYPE");
             currUserID = rs.getInt("USERID");
-            System.out.println(currUserType);
+            
         }
         refreshRsStmt("accounts");
     }

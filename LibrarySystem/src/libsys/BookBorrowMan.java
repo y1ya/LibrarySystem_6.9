@@ -1,6 +1,5 @@
 package libsys;
 
-import java.awt.event.ItemEvent;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -346,8 +345,10 @@ public class BookBorrowMan extends main {
                     if (availability.equals("BORROWING")) {
                         availability = "BORROWED";
                         updateRs.updateString("AVAILABILITY", availability);
+                        updateRs.updateDate("BORROWEDDATE", localNow);
                         updateRs.updateRow();
                     } else if (availability.equals("RETURNING") && (diff_of_dates >= 0)) {
+                        updateRs.updateDate("RETURNEDDATE", localNow);
                         BookTitle=updateRs.getString("TITLE");
                         ChangeNumberOfCopies(BookTitle);
                         deleteAction();
