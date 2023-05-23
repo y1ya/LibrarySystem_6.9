@@ -1,0 +1,37 @@
+Sat May 20 16:10:15 CST 2023 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Sat May 20 16:10:15 CST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0188-3835-928e-ffff89e8060d 
+on database directory C:\Users\MM\Documents\GitHub\LibrarySystem\Database\books\books with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_141/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_141-b15
+user.dir=C:\Program Files\Java\jdk1.8.0_141\db
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\MM\Documents\GitHub\LibrarySystem\Database\books
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Sat May 20 16:10:16 CST 2023:
+Shutting down instance a816c00e-0188-3835-928e-ffff89e8060d on database directory C:\Users\MM\Documents\GitHub\LibrarySystem\Database\books\books with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Sat May 20 16:10:16 CST 2023 Thread[DRDAConnThread_3,5,main] (DATABASE = books), (DRDAID = {2}), Database 'books' shutdown.
+----------------------------------------------------------------
+Sat May 20 16:10:18 CST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a65c80ac-0188-3835-928e-ffff89e8060d 
+on database directory C:\Users\MM\Documents\GitHub\LibrarySystem\Database\books\books with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_141/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_141-b15
+user.dir=C:\Program Files\Java\jdk1.8.0_141\db
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\MM\Documents\GitHub\LibrarySystem\Database\books
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Sat May 20 16:11:34 CST 2023: Shutting down Derby engine
+----------------------------------------------------------------
+Sat May 20 16:11:34 CST 2023:
+Shutting down instance a65c80ac-0188-3835-928e-ffff89e8060d on database directory C:\Users\MM\Documents\GitHub\LibrarySystem\Database\books\books with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+----------------------------------------------------------------

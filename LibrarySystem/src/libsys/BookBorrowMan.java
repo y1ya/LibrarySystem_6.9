@@ -25,6 +25,7 @@ public class BookBorrowMan extends main {
     private DefaultTableModel borrowTableModel;
     private DefaultTableModel borrowedTableModel;
     public static int borrBookID;
+    public String BookTitle;
    
     
     @SuppressWarnings("unchecked")

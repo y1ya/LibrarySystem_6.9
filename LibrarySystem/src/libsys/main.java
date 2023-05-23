@@ -21,7 +21,8 @@ public class main extends javax.swing.JFrame {
     DefaultTableModel LoginModel = new DefaultTableModel();
     
     // universal variables for accounts database 
-    String usiEmail, usiSex, usiAddress, usiFullName, usiPass, usicPass, usiUsertype, aFullname, aPassword, aUserType, aStringUserID;
+    String usiEmail, usiSex, usiAddress, usiFullName, usiPass, usicPass, 
+           usiUsertype, aFullname, aPassword, aUserType, aStringUserID;
     int usiID, usiContact;
     boolean matchAcc = false, matchPass = false, matchType = false;
     int randID, aUserID;
