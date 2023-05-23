@@ -225,11 +225,11 @@ public class BookBorrowMan extends main {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        String[] columnNames1 = {"BorrowerID", "Title", "BookID", "Availability"};
-        borrowTableModel = new DefaultTableModel(columnNames1, 0);
-        borrowTable.setModel(borrowTableModel);
-        
+
         try {
+            String[] columnNames1 = {"BorrowerID", "Title", "BookID", "Availability"};
+            borrowTableModel = new DefaultTableModel(columnNames1, 0);
+            borrowTable.setModel(borrowTableModel);
             databaseConnect("books");
             rs = stmt.executeQuery("SELECT BORROWER, TITLE, BOOKID, AVAILABILITY FROM BOOKS WHERE AVAILABILITY = 'BORROWING' OR AVAILABILITY = 'RETURNING'");
             while (rs.next()) {
@@ -245,11 +245,12 @@ public class BookBorrowMan extends main {
             System.out.println(err.getMessage());
         }
         
-        String[] columnNames2 = {"BorrowerID", "Title", "BookID", "Duedate"};
-        borrowedTableModel = new DefaultTableModel(columnNames2, 0);
-        borrowedTable.setModel(borrowedTableModel);
+
 
         try {
+            String[] columnNames2 = {"BorrowerID", "Title", "BookID", "Duedate"};
+            borrowedTableModel = new DefaultTableModel(columnNames2, 0);
+            borrowedTable.setModel(borrowedTableModel);
             databaseConnect("books");
             rs = stmt.executeQuery("SELECT BORROWER, TITLE, BOOKID, DUEDATE FROM BOOKS WHERE AVAILABILITY = 'BORROWED'");
             while (rs.next()) {
@@ -335,26 +336,39 @@ public class BookBorrowMan extends main {
                 Statement updateStmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet updateRs = updateStmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = " + borrBookID);
 
-                if (updateRs.next()) {
-                    Date localNow = Date.valueOf(LocalDate.now());
-                    Date bookDue = updateRs.getDate("DUEDATE");
-                    long diff_of_dates = dateDiff(bookDue, localNow);
+                if (updateRs.next()) 
+                {
+                    LocalDate today = LocalDate.now();
+                    LocalDate due = today.plusDays(3);
+                    Date localNow = Date.valueOf(today);
+                    Date dueDate = Date.valueOf(due);
+                    
                     availability = updateRs.getString("AVAILABILITY");
 
-                    if (availability.equals("BORROWING")) {
+                    if (availability.equals("BORROWING")) 
+                    {
                         availability = "BORROWED";
                         updateRs.updateString("AVAILABILITY", availability);
                         updateRs.updateDate("BORROWEDDATE", localNow);
+                        updateRs.updateDate("DUEDATE", dueDate);
                         updateRs.updateInt("NOTIFYBORROWED", 1);
                         updateRs.updateRow();
-                    } else if (availability.equals("RETURNING") && (diff_of_dates >= 0)) {
-                        updateRs.updateInt("NOTIFYRETURNED", 1);
+                    } else if (availability.equals("RETURNING")) 
+                    {
+                        updateRs.updateInt("NOTIFYBORROWED", 1);
+                        Date bookDue = updateRs.getDate("DUEDATE");                    
+                        Date bookReturned = updateRs.getDate("RETURNEDDATE");
                         updateRs.updateRow();
-                        BookTitle=updateRs.getString("TITLE");
-                        ChangeNumberOfCopies(BookTitle);
-                        deleteAction();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Book Overdue. Please handle the case for overdue books.");
+                        if(!isOverDue(bookDue, bookReturned))
+                        {
+                            BookTitle=updateRs.getString("TITLE");                        
+                            ChangeNumberOfCopies(BookTitle);
+                            deleteAction();
+                        } else 
+                        {
+                            JOptionPane.showMessageDialog(null, "Book Overdue. The book has not been returned for "+dateDiff(localNow, bookDue)+" days. Penalty is "+ penaltyCost(bookReturned, bookDue, 0.15, 50)+ " pesos.");
+                            System.out.println(isOverDue(bookReturned, bookDue));
+                        }
                     }
                 }
 
@@ -407,7 +421,7 @@ public class BookBorrowMan extends main {
                 while (updateRs.next()) {
                     availability = updateRs.getString("AVAILABILITY");
                     if (availability.equals("BORROWING")) {
-                        updateRs.updateInt("NOTIFYBORROWED", -1);
+                        updateRs.updateInt("NOTIFYBORROWED", 2);
                         updateRs.updateRow();
                         BookTitle=updateRs.getString("TITLE");
                         ChangeNumberOfCopies(BookTitle);
@@ -415,7 +429,7 @@ public class BookBorrowMan extends main {
                     } else if (availability.equals("RETURNING")) {
                         availability = "BORROWED";
                         updateRs.updateString("AVAILABILITY", availability);
-                        updateRs.updateInt("NOTIFYRETURNED", -1);
+                        updateRs.updateInt("NOTIFYRETURNED", 2);
                         updateRs.updateRow();
                     } else {
                         JOptionPane.showMessageDialog(null, "Book Overdue. Please handle the case for overdue books.");
@@ -486,12 +500,6 @@ public class BookBorrowMan extends main {
             }
         }
         refreshRsStmt("books");
-    }
-    
-    public long dateDiff(Date duedate, Date currentdate){
-        long millDiff = duedate.getTime() - currentdate.getTime();
-        long daysDiff = millDiff/(1000 * 60 * 60 * 24);
-        return daysDiff;
     }
     
     private void ChangeNumberOfCopies(String BookName)throws SQLException{

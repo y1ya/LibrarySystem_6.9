@@ -295,7 +295,7 @@ public class ReaderBase extends main {
                         n = "\nYou have decided to return the book. Please wait for the Librarian to acknowledge your request.";
                         break;
                     case "BORROWED":
-                        n = "\nYou can now borrow a book.";
+                        n = "\nYou can now borrow the book.";
                         break;
                 }
 
@@ -445,7 +445,7 @@ public class ReaderBase extends main {
     public void queryTermAvail(String category) throws SQLException 
     {
         String selectedAvail = (String) cbAvail.getSelectedItem();
-        String query = "SELECT * FROM BOOKS WHERE AVAILABILITY = ? AND " + category + " IS NOT NULL"; // why?
+        String query = "SELECT * FROM BOOKS WHERE AVAILABILITY = ? AND " + category + " IS NOT NULL"; 
         PreparedStatement stmt = con.prepareStatement(query);
         stmt.setString(1, selectedAvail.toUpperCase());
         rs = stmt.executeQuery();

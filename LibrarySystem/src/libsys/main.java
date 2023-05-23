@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.Random;
 import java.awt.Window;
+import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
@@ -339,8 +340,9 @@ public class main extends javax.swing.JFrame {
         return textfield.getText().length() < limit;
     }
     
-    public long dateDiff(Date duedate, Date currentdate){
-        long millDiff = duedate.getTime() - currentdate.getTime(); //hmhmhmm
+    //Date 1 must be after date 2 to get a positive result.
+    public static long dateDiff(Date date1, Date date2){
+        long millDiff = date1.getTime() - date2.getTime();
         long daysDiff = millDiff/(1000 * 60 * 60 * 24);
         return daysDiff;
     }
@@ -362,7 +364,8 @@ public class main extends javax.swing.JFrame {
         refreshRsStmt("accounts");
         return false;
     }
-
+    
+    //Returns true if date is after now.
     public boolean isOverDue(Date date, Date now){
         return now.after(date);
     }
@@ -395,28 +398,50 @@ public class main extends javax.swing.JFrame {
                 {
                     JOptionPane.showMessageDialog(null, "Your borrow request has been accepted");
                     rs.updateInt("NOTIFYBORROWED", 0);
- 
+                    rs.updateRow();
+                    return;
                 }
-                if (avail.equals("BORROWED") && borr ==-1)
+                else if (avail.equals("BORROWED") && borr == 2)                  
                 {
                     JOptionPane.showMessageDialog(null, "Unfortunately, your borrow request has been denied");
                     rs.updateInt("NOTIFYBORROWED", 0);
+                    rs.updateRow();
+                    return;
                 }
-                if (avail.equals("AVAILABLE") && ret == 1);
+                else if (avail.equals("AVAILABLE") && ret == 1)
                 {
                     JOptionPane.showMessageDialog(null, "Your return request has been accepted");
                     rs.updateInt("NOTIFYRETURNED", 0);
+                    rs.updateRow();
+                    return;
                 }  
-                if (avail.equals("AVAILABLE") && ret == -1)
+                else if (avail.equals("AVAILABLE") && ret == 2)
                 {
                     JOptionPane.showMessageDialog(null, "Unfortunately, your return request has been denied");
                     rs.updateInt("NOTIFYRETURNED", 0);
+                    rs.updateRow();
+                    return;
                 }
             }
-            rs.updateRow();
         }
         refreshRsStmt("books");                         
     }
+    
+    //To get a positive result, Date 1 must be after Date 2. Rate should be something like 15% = 0.15.
+    public static double penaltyCost(Date date1, Date date2, double rate, int baseCost){
+        double penaltyCost;
+        long days = dateDiff(date1, date2);
+        System.out.print(days);
+        try{
+            penaltyCost = baseCost*Math.pow(1+rate, days-1);
+            DecimalFormat df = new DecimalFormat("#######.##");
+            penaltyCost = Double.parseDouble(df.format(penaltyCost));
+            return penaltyCost;
+        } catch(NumberFormatException e){
+            System.out.println("An error occurred: " + e.getMessage());
+            return 0.0f;
+        }
+    }    
     
     // The first statement/s to be called
     public static void main(String[] args) {

@@ -22,7 +22,8 @@ public class AdminBase extends main {
     int x = 0;
     
     String username, password, usertype, searchUserID, fullname, birthdate, sex, address, stringContactNumber;
-    int userid, ids, contactNumber;
+    int userid, ids;
+    long contactNumber;
     
     public AdminBase() {
         initComponents();
@@ -130,7 +131,7 @@ public class AdminBase extends main {
                     rs.getString("FULLNAME"), 
                     rs.getString("PASSWORD"),
                     rs.getString("EMAIL"),
-                    rs.getInt("CONTACTNUMBER"),
+                    rs.getLong("CONTACTNUMBER"),
                     rs.getString("ADDRESS"),
                     rs.getDate("BIRTHDATE"),
                     rs.getString("SEX"),
@@ -426,7 +427,7 @@ public class AdminBase extends main {
                 } else if (stringContactNumber.length() < 11) {
                     JOptionPane.showMessageDialog(null, "Contact Number must be equal to 11 characters");
                 } else {
-                    contactNumber = Integer.parseInt(stringContactNumber);
+                    contactNumber = Long.parseLong(stringContactNumber);
                     if(rs.next()) {
                         rs.moveToInsertRow();
                         rs.updateInt("USERID", userid);
@@ -436,7 +437,7 @@ public class AdminBase extends main {
                         rs.updateDate("BIRTHDATE", sqlBirthDate);
                         rs.updateString("SEX", sex);
                         rs.updateString("ADDRESS", address);
-                        rs.updateInt("CONTACTNUMBER", contactNumber);
+                        rs.updateLong("CONTACTNUMBER", contactNumber);
                         rs.updateString("USERTYPE", usertype);
                         rs.insertRow();
                         refreshRsStmt("accounts");
@@ -526,7 +527,7 @@ public class AdminBase extends main {
                     txtBirthdate.setText(String.valueOf(rs.getDate("BIRTHDATE")));
                     cbSex.setSelectedItem(rs.getString("SEX"));
                     txtAddress.setText(rs.getString("ADDRESS"));
-                    txtNumber.setText(String.valueOf(rs.getInt("CONTACTNUMBER")));
+                    txtNumber.setText(String.valueOf(rs.getLong("CONTACTNUMBER")));
                 }
                 notEditing();
             }
@@ -653,7 +654,7 @@ public class AdminBase extends main {
                         rs.updateDate("BIRTHDATE", sqlBirthDate);
                         rs.updateString("SEX", sex);
                         rs.updateString("ADDRESS", address);
-                        rs.updateInt("CONTACTNUMBER", contactNumber);
+                        rs.updateLong("CONTACTNUMBER", contactNumber);
                         rs.updateString("USERTYPE", usertype);
                         rs.updateRow();
                         refreshRsStmt("accounts");
