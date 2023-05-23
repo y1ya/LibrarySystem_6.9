@@ -227,9 +227,11 @@ public class GuestSignUp extends main {
 
                     JOptionPane.showMessageDialog(null, "Registration Complete!");
                     this.dispose();
-                    currFullName = "Guest";
-                    currUserType = usiUsertype;
-                    currUserID = randID;
+                    
+                    databaseConnect("accounts");
+                    getCurrProp();
+                    refreshRsStmt("accounts");
+                    
                     toUsertypeBases("GUEST");
                     databaseConnect("accounts"); 
                     refreshRsStmt("accounts");

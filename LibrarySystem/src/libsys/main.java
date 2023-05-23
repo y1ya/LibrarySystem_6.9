@@ -31,7 +31,7 @@ public class main extends javax.swing.JFrame {
     public static int currBookID;
     
     // personalization variables
-    public static String currFullName, currUserType;
+    public static String currFullName, currUserType, currEmail, currPass;
     public static int currUserID;
 
     // Connects to the reffered database
@@ -90,7 +90,7 @@ public class main extends javax.swing.JFrame {
             new ReaderSignIn(), new GuestSignUp(), new AdminBase(), 
             new BookRegistry(), new LibrarianBase(), new BookBorrowMan(),
             new BookEditor(), new BookViewer(), new ReaderBase(),
-            new MemberSignUp()
+            new MemberSignUp(), new BookLocationMan(),
         };
         for (JFrame jframe : jframeArr) {
             if (jframe.getClass().equals(sig.getClass())) {
@@ -159,6 +159,7 @@ public class main extends javax.swing.JFrame {
                             matchAcc = true; 
                             matchPass = true;
                             matchType = true;
+                            databaseConnect("accounts");
                             getCurrProp();
                         }
                         else
@@ -185,7 +186,7 @@ public class main extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Successfully Logged in!");
             this.dispose();
-            toUsertypeBases(currUserType);
+            toUsertypeBases(usertype);
         }
         else if (matchAcc && !matchPass)
         {
@@ -226,6 +227,7 @@ public class main extends javax.swing.JFrame {
                             matchAcc = true; 
                             matchPass = true;
                             matchType = true;
+                            databaseConnect("accounts");
                             getCurrProp();
                         } else 
                         {
@@ -271,6 +273,7 @@ public class main extends javax.swing.JFrame {
     public void toUsertypeBases(String usertype)
     {
         ReaderBase reader = new ReaderBase();
+        System.out.println(usertype);
         switch (usertype) 
         {
             case "ADMIN":
@@ -307,16 +310,25 @@ public class main extends javax.swing.JFrame {
     
     public void getCurrProp() throws SQLException
     {
-        if (usiUsertype.equals("GUEST"))
+        stmt = con.createStatement();
+        rs = stmt.executeQuery("SELECT USERTYPE, EMAIL, USERID, PASSWORD FROM ACCOUNTS WHERE EMAIL='" + usiEmail + "'");
+        if (rs.next())
         {
-            currFullName = "GUEST";
+            if (rs.getString("USERTYPE").equals("GUEST"))
+            {
+                currFullName = "GUEST";
+            }
+            else if (rs.getString("USERTYPE").equals("MEMBER"))
+            {
+                currFullName = rs.getString("FULLNAME");
+            }
+            currEmail = rs.getString("EMAIL");
+            currPass = rs.getString("PASSWORD");
+            currUserType = rs.getString("USERTYPE");
+            currUserID = rs.getInt("USERID");
+            System.out.println(currUserType);
         }
-        else
-        {
-            currFullName = rs.getString("FULLNAME");
-        }
-        currUserType = rs.getString("USERTYPE");
-        currUserID = rs.getInt("USERID");
+        refreshRsStmt("accounts");
     }
      
     // Returns true if the length of string in a textfield is less than the limit.
