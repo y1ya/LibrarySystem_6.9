@@ -400,7 +400,6 @@ public class AdminBase extends main {
             sex = String.valueOf(cbSex.getSelectedItem());
             address = txtAddress.getText();
             stringContactNumber = txtNumber.getText();
-            
             try {
                 databaseConnect("accounts");
                 if (emailTaken(username)) {
@@ -454,6 +453,8 @@ public class AdminBase extends main {
                 JOptionPane.showMessageDialog(null, err.getMessage());
             } catch (ParseException ex) {
                 Logger.getLogger(AdminBase.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Must input valid formatting on Date" + "\nEx: 2005-05-29");
             } 
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -670,6 +671,8 @@ public class AdminBase extends main {
                 JOptionPane.showMessageDialog(null, err.getMessage());
             } catch (ParseException ex) {
                 Logger.getLogger(AdminBase.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Must input valid formatting on Date" + "\nEx: 2005-05-29");
             } 
         }
     }//GEN-LAST:event_btnSaveActionPerformed
