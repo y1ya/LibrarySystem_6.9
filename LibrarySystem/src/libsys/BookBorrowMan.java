@@ -328,6 +328,7 @@ public class BookBorrowMan extends main {
     private void btnAcceptBorrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptBorrowActionPerformed
         if (borrowTable.getSelectedRow() != -1) {
             try {
+                databaseConnect("books");
                 int selectedRow = borrowTable.getSelectedRow();
                 Object val = borrowTable.getValueAt(selectedRow, 2);
                 borrBookID = Integer.parseInt(val.toString());
@@ -344,16 +345,15 @@ public class BookBorrowMan extends main {
 
                     if (availability.equals("BORROWING")) {
                         availability = "BORROWED";
+                        updateRs.updateString("AVAILABILITY", availability);
+                        updateRs.updateRow();
                     } else if (availability.equals("RETURNING") && (diff_of_dates >= 0)) {
-                        availability = "AVAILABLE";
-                        updateRs.updateNull("BORROWER");
-                        updateRs.updateNull("DUEDATE");
+                        BookTitle=updateRs.getString("TITLE");
+                        ChangeNumberOfCopies(BookTitle);
+                        deleteAction();
                     } else {
                         JOptionPane.showMessageDialog(null, "Book Overdue. Please handle the case for overdue books.");
                     }
-
-                    updateRs.updateString("AVAILABILITY", availability);
-                    updateRs.updateRow();
                 }
 
                 // Store data from ResultSet in a separate data structure
@@ -393,6 +393,7 @@ public class BookBorrowMan extends main {
     private void btnDenyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDenyActionPerformed
         if (borrowTable.getSelectedRow() != -1) {
             try {
+                databaseConnect("books");
                 int selectedRow = borrowTable.getSelectedRow();
                 Object val = borrowTable.getValueAt(selectedRow, 2);
                 borrBookID = Integer.parseInt(val.toString());
@@ -404,15 +405,16 @@ public class BookBorrowMan extends main {
                 while (updateRs.next()) {
                     availability = updateRs.getString("AVAILABILITY");
                     if (availability.equals("BORROWING")) {
-                        availability = "AVAILABLE";
+                        BookTitle=updateRs.getString("TITLE");
+                        ChangeNumberOfCopies(BookTitle);
+                        deleteAction();
                     } else if (availability.equals("RETURNING")) {
                         availability = "BORROWED";
+                        updateRs.updateString("AVAILABILITY", availability);
+                        updateRs.updateRow();
                     } else {
                         JOptionPane.showMessageDialog(null, "Book Overdue. Please handle the case for overdue books.");
                     }
-
-                    updateRs.updateString("AVAILABILITY", availability);
-                    updateRs.updateRow();
                 }
 
                 updateRs.close();
@@ -485,6 +487,25 @@ public class BookBorrowMan extends main {
         long millDiff = duedate.getTime() - currentdate.getTime();
         long daysDiff = millDiff/(1000 * 60 * 60 * 24);
         return daysDiff;
+    }
+    
+    private void ChangeNumberOfCopies(String BookName)throws SQLException{
+        rs=stmt.executeQuery("SELECT * FROM BOOKS WHERE TITLE = '"+BookName+"' AND AVAILABILITY = 'AVAILABLE'");
+        while(rs.next()){
+            int newCopies=rs.getInt("COPIES")+1;
+            rs.updateInt("COPIES", newCopies);
+            rs.updateRow();
+        }
+        refreshRsStmt("books");
+    }
+
+    private void deleteAction()throws SQLException{
+        rs=stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = " + borrBookID);
+        while(rs.next()){
+            rs.deleteRow();
+            rs.close();
+        }
+        refreshRsStmt("books");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

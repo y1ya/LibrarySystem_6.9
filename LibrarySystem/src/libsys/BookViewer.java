@@ -17,7 +17,7 @@ public class BookViewer extends main {
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
     String title, author, genre, date, synopsis, imagesrc, availability;
-    int borrower;
+    int borrower, copies, newbookID;
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -196,7 +196,7 @@ public class BookViewer extends main {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnBorrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrowActionPerformed
-        
+        newbookID = randNumGen("books","bookid");
         try 
         {
             databaseConnect("books");
@@ -205,6 +205,13 @@ public class BookViewer extends main {
             {
                 availability = rs.getString("AVAILABILITY");
                 borrower = rs.getInt("BORROWER");
+                copies=rs.getInt("COPIES")-1;
+                rs.updateInt("COPIES", copies);
+
+                if(copies==1){
+                    rs.updateString("AVAILABILITY","UNAVAILABLE");
+                }
+                rs.updateRow();
             }
             refreshRsStmt("books");
         }
@@ -216,17 +223,21 @@ public class BookViewer extends main {
         if (availability.equals("AVAILABLE")) 
         {
            try{                    
-                rs = stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = " + currBookID);
+                stmt.execute("INSERT INTO BOOKS (TITLE, AUTHOR, IMAGE, SYNOPSIS, GENRE, DATE, BOOKID) SELECT TITLE, AUTHOR, IMAGE, SYNOPSIS, GENRE, DATE, "+newbookID+" FROM BOOKS WHERE BOOKID = "+currBookID);
+                rs=stmt.executeQuery("SELECT * FROM BOOKS WHERE BOOKID = "+newbookID);
                 if (rs.next())
                 {                    
                     rs.updateString("AVAILABILITY", "BORROWING");
-                    rs.updateInt("BORROWER", currUserID);   
+                    rs.updateNull("LOCATION");
+                    rs.updateInt("BORROWER", currUserID);  
+                    rs.updateNull("COPIES");
                     LocalDate currentDate = LocalDate.now();
                     LocalDate dueDate = currentDate.plusDays(3);
                     rs.updateDate("DUEDATE", java.sql.Date.valueOf(dueDate));
                     rs.updateRow();
                 }
                 JOptionPane.showMessageDialog(null, "You successfully borrowed the book.");
+                btnBorrow.setEnabled(false);
                 refreshRsStmt("books");
                 updateView();
                 }

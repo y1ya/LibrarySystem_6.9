@@ -11,6 +11,7 @@ public class LibrarianBase extends main {
     ReaderBase viewer = new ReaderBase();
     BookRegistry register = new BookRegistry();
     BookBorrowMan borrow = new BookBorrowMan();
+    BookLocationMan location = new BookLocationMan();
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -118,7 +119,7 @@ public class LibrarianBase extends main {
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnLocationManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocationManActionPerformed
-       
+       location.setVisible(true);
     }//GEN-LAST:event_btnLocationManActionPerformed
 
 

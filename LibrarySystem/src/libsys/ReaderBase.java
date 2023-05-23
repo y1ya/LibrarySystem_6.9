@@ -91,7 +91,7 @@ public class ReaderBase extends main {
                 btnMemberActionPerformed(evt);
             }
         });
-        jPanel1.add(btnMember, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 150, -1, -1));
+        jPanel1.add(btnMember, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 160, 190, -1));
 
         btnShowBorrowed.setText("Show Borrowed Book");
         btnShowBorrowed.addActionListener(new java.awt.event.ActionListener() {
@@ -99,7 +99,7 @@ public class ReaderBase extends main {
                 btnShowBorrowedActionPerformed(evt);
             }
         });
-        jPanel1.add(btnShowBorrowed, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 190, 140, -1));
+        jPanel1.add(btnShowBorrowed, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 220, 190, -1));
 
         mainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -254,6 +254,7 @@ public class ReaderBase extends main {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMemberActionPerformed
+        this.dispose();
         sendDisplaySignal(new MemberSignUp());
     }//GEN-LAST:event_btnMemberActionPerformed
 
@@ -405,7 +406,7 @@ public class ReaderBase extends main {
 
     public void queryNull(String category) throws SQLException 
     {
-        String query = "SELECT * FROM BOOKS";
+        String query = "SELECT * FROM BOOKS WHERE AVAILABILITY = 'AVAILABLE'";
         PreparedStatement stmt = con.prepareStatement(query);
         rs = stmt.executeQuery();
     }
@@ -433,6 +434,12 @@ public class ReaderBase extends main {
         stmt.setString(1, selectedAvail.toUpperCase());
         rs = stmt.executeQuery();
     }
+    
+    public void queryBorrowedBook() throws SQLException{
+        String query = "SELECT * FROM BOOKS WHERE BORROWER ="+currUserID;
+        PreparedStatement stmt = con.prepareStatement(query);
+        rs = stmt.executeQuery();
+    }
 
     public void setGuiBase() 
     {          
@@ -440,6 +447,7 @@ public class ReaderBase extends main {
         cbAvail.addItem("Unavailable/Available");
         cbAvail.addItem("Available");
         cbAvail.addItem("Unavailable");
+        cbAvail.addItem("My Borrowed Book");
         
         cbCending.removeAllItems();
         cbCending.addItem("Ascending");
@@ -472,6 +480,8 @@ public class ReaderBase extends main {
                 queryTermAll(category);
             else if (!searchField.getText().isEmpty() && (cbAvail.getSelectedIndex() == 1 || cbAvail.getSelectedIndex() == 2)) 
                 queryTermAvail(category);
+            else if(cbAvail.getSelectedIndex()==3)
+                queryBorrowedBook();
 
             if (bookTableModel != null) 
                 bookTableModel.setRowCount(0);

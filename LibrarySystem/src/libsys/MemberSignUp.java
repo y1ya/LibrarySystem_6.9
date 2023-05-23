@@ -238,6 +238,7 @@ public class MemberSignUp extends main{
                     toUsertypeBases("MEMBER");
                     databaseConnect("accounts"); 
                     refreshRsStmt("accounts");
+                    this.dispose();
                     JOptionPane.showMessageDialog(null, "You've successfully upgraded to Member!");
                 }
             }  
